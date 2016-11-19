@@ -364,10 +364,8 @@ subparam.refor <- function(x){
       stop("Object of class 'subniche' expected")
     appel <- as.list(x$call)
     X <- eval.parent(appel[[2]])$tab[y,]
-    Y <- eval.parent(appel[[3]])
+    Y <- eval.parent(appel[[3]])[y,]
     w1 <- apply(Y, 2, sum)
-    if (any(w1 <= 0))
-      stop(paste("Column sum <=0 in Y"))
     Y <- sweep(Y, 2, w1, "/")
     calcul.param <- function(freq, mil) {
       inertia <- sum(freq * mil * mil)
@@ -385,7 +383,7 @@ subparam.refor <- function(x){
       names(w1) <- c("omi", "tol", "rtol")
       return(c(w, w1))
     }
-    res <- apply(Y[y,], 2, calcul.param, mil = X)
+    res <- apply(Y, 2, calcul.param, mil = X)
     t(res)
   }
   N <- max(as.numeric(levels(factor)))
@@ -440,10 +438,8 @@ subparam.subor <- function(x){
     appel <- as.list(x$call)
     X <- eval.parent(appel[[2]])$tab[y,]
     X <- as.matrix(scale(X, center=T,scale=F))
-    Y <- eval.parent(appel[[3]])
+    Y <- eval.parent(appel[[3]])[y,]
     w1 <- apply(Y, 2, sum)
-    if (any(w1 <= 0))
-      stop(paste("Column sum <=0 in Y"))
     Y <- sweep(Y, 2, w1, "/")
     calcul.param <- function(freq, mil) {
       inertia <- sum(freq * mil * mil)
@@ -461,7 +457,7 @@ subparam.subor <- function(x){
       names(w1) <- c("omi", "tol", "rtol")
       return(c(w, w1))
     }
-    res <- apply(Y[y,], 2, calcul.param, mil = X)
+    res <- apply(Y, 2, calcul.param, mil = X)
     t(res)
   }
   N <- max(as.numeric(levels(factor)))
