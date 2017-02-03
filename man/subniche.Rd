@@ -13,7 +13,7 @@
 \alias{subparam.subor}
 \alias{subplot}
 \alias{summary.subniche}
-\title{The Within Outlying Mean Index analysis}
+\title{The Within Outlying Mean Indexes}
 \usage{
 subniche(nic, factor)
 
@@ -42,7 +42,7 @@ rtestsubor(x, nrepet)
 \arguments{
 \item{nic}{an object of class \code{niche}.}
 
-\item{factor}{a factor which will defined the subscales within which the subniches will be calculated (the same length of the number of sites)}
+\item{factor}{a factor which will defined the subsets within which the subniches will be calculated (the same length of the number of sites)}
 
 \item{x}{an object of class \code{subniche}.}
 
@@ -61,38 +61,41 @@ rtestsubor(x, nrepet)
 \value{
 Adds items in the niche list and changing the class into \code{subniche} containing:
 
-\code{factor} the factor use to divide the environmental and species matrix into subscale.
+\code{factor} the factor use to divide the environmental and species matrix into subset.
 
-\code{mav} a dataframe with the subscale origins, \emph{G'}.
+\code{mav} a data frame with the subset origins, \emph{G'}.
 
-\code{mus} a dataframe with the subscale species niche coordinates
+\code{mus} a data frame with the subset species niche coordinates
 }
 \description{
-The analysis allows to divide the reference niche, estimated from the \link[ade4]{niche} function in the \link{ade4} package into subniches defined by a factor, which creates the
-subscales. See details for more information.
+The method allows to divide the realized niche, estimated from the \link[ade4]{niche} function in the \link{ade4} package into subniches defined by a factor, which creates the
+subsets. See details for more information.
 }
 \details{
-The Within Outlying Mean Index analysis is a statistical exploratory niche analysis which provides observation of niche shift and/or conservatism, of an entire community,at different subcales
-(temporal ,spatial and/or finer biological organisation level), and comparable under the same environmental gradients. This hindcasting multivariate analysis is based on the OMI analysis (Doledec \emph{et al.} 2000) which is used as reference.
-The niches refinement is inspired by the K-select (Calenge \emph{et al.} 2005) which emphasizes the limiting factors in habitat use in design II and III (Thomas and Taylor, 1990).The different estimations should help understand:
+The Within Outlying Mean Indexes are statistical exploratory niche method which provides observation of niche shift and/or conservatism, of an entire community,at different subset
+(temporal and/or spatial) and comparable under the same environmental gradients. This hindcasting multivariate analysis is based on the OMI analysis (Doledec \emph{et al.} 2000) which is used as reference.
+The niches refinement is inspired by the K-select (Calenge \emph{et al.} 2005) which emphasizes the limiting factors in habitat used.The different estimations should help understand:
 
-1. the environmental factors defining a species' reference niche, under on the full scale, within a community.
+1. the environmental factors defining a species' reference niche, over the sampling domain within a community.
 
-2. the environmental factors defining a species' subniches, under each subscales, within a community.
+2. the environmental factors defining a species' subniches, under each subsets, within a community.
 
-The subniches parameters can be calculated from both the reference origin,\emph{G}, which corresponds to the reference plan origin, and from \emph{G'}, which corresponds to the
-suborigins. \emph{G} is the graphical representation of the mean environmental conditions encountered over the full scale of the data. \emph{G'} is the mean environmental conditions
-encountered at a subscale defined by the factor. They are complementary has you can compare:
+3.the observation of the biological constraint exerted on the species subniche.
+
+The subniches parameters can be calculated from both the reference origin,\emph{G}, which corresponds to the reference plane origin, and from \emph{G'}, which corresponds to the
+suborigins. \emph{G} is the graphical representation of the average habitat conditions of the sampling domain. \emph{G'} is the average habitat conditions of the subset defined by the factor. They are complementary has you can compare:
 
 1. a single species' subniches to \emph{G}.
 
-2. the community' subniches to \emph{G'} at a specific subscale.
+2. the community' subniches to \emph{G'} at a specific subset.
 
- The subniches of a single species can only be compared to \emph{G} as it is the common origin to all subscales. Whereas \emph{G'} is only common to the species found within the
-subscale. So comparing different subniches of one species, found within different subscales, is only relevant to \emph{G}. The community's subniches can be compared to both \emph{G}
-and \emph{G'}, but \emph{G}, being the mean environmental conditions found within the full scale, will not express the specificity of the environmental conditions that the species
-encountered at the subscale. \emph{G'}, being the mean environmental conditions of the subscale, will reflect the atypical value of the environmental condition, making the
-comparison of the community's subniches parameters more relevant.
+3.the difference between the potential subniche and the subniche correspond to the observe biological constraint (Karasiewicz \emph{et al.}, submitted) .
+
+ The subniches of a single species can only be compared to \emph{G} as it is the common origin to all subsets. Whereas \emph{G'} is only common to the species found within the
+subset. So comparing different subniches of one species, found within different subsets, is only relevant to \emph{G}. The community's subniches can be compared to both \emph{G}
+and \emph{G'}, but \emph{G}, being the overall average habitat conditions, will not express the specificity of the environmental conditions that the species
+encountered at the subscale. \emph{G'}, being the average subset habitat conditions, will reflect the atypical value of the habitat conditions, making the
+comparison of the community's subniches parameters more relevant. The observation the biological constraint on a species subniche can be use for further analysis and interpretation.
 }
 \examples{
 library(ade4)
@@ -101,7 +104,7 @@ dudi1 <- dudi.pca(doubs$env, scale = TRUE, scan = FALSE, nf = 3)
 nic1 <- niche(dudi1, doubs$fish, scann = FALSE)
 # number of sites
 N <- dim(nic1$ls)[1]
-#Create a factor which defines the subscales
+#Create a factor which defines the subsets
 fact <- factor(c(rep(1,N/2),rep(2,N/2)))
 # nic1 will be use as reference and fact will be use to define the subniches environment
 subnic1 <- subniche(nic1, fact)
@@ -136,7 +139,7 @@ Calenge C., Dufour A.B. and Maillard D. (2005). K-select analysis: a new method 
 
 Thomas D.L., Taylor E.J., (1990). Study designs and tests for comparing resource use and availability.\emph{ J. Wildl. Manage.}, \bold{54}, 322-330.
 
-Karasiewicz S.,Doledec S.and Lefebvre S. (submitted). Within Outlying Mean Index analysis: combining OMI and K-select analysis for the realized niche decomposition.
+Karasiewicz S.,Doledec S.and Lefebvre S. (submitted). Within Outlying Mean Indexes: refining the OMI analysis for the realized niche decomposition.
 }
 \seealso{
 \link[ade4]{niche} \link[ade4]{niche.param}
