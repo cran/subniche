@@ -15,7 +15,7 @@
 #' @param nrepet the number of permutations for the testing procedure
 #' @return Adds items in the niche list and changing the class into \code{subniche} containing:
 #' @return \code{factor} the factor use to divide the environmental and species matrix into subset.
-#' @return \code{mav} a data frame with the subset origins, \emph{G'}.
+#' @return \code{mav} a data frame with the subset origins, \emph{G_k}.
 #' @return \code{mus} a data frame with the subset species niche coordinates
 #' @keywords subniche
 #' @author Stephane Karasiewicz, \email{stephane.karasiewicz@wanadoo.fr}
@@ -29,19 +29,19 @@
 #'
 #' 3.the observation of the biological constraint exerted on the species subniche.
 #'
-#' The subniches parameters can be calculated from both the reference origin,\emph{G}, which corresponds to the reference plane origin, and from \emph{G'}, which corresponds to the
-#' suborigins. \emph{G} is the graphical representation of the average habitat conditions of the sampling domain. \emph{G'} is the average habitat conditions of the subset defined by the factor. They are complementary has you can compare:
+#' The subniches parameters can be calculated from both the reference origin,\emph{G}, which corresponds to the reference plane origin, and from \emph{G_k}, which corresponds to the
+#' suborigins. \emph{G} is the graphical representation of the average habitat conditions of the sampling domain. \emph{G_k} is the average habitat conditions of the subset defined by the factor. They are complementary has you can compare:
 #'
 #' 1. a single species' subniches to \emph{G}.
 #'
-#' 2. the community' subniches to \emph{G'} at a specific subset.
+#' 2. the community' subniches to \emph{G_k} at a specific subset.
 #'
-#' 3.the difference between the potential subniche and the subniche correspond to the observe biological constraint (Karasiewicz \emph{et al.}, submitted) .
+#' 3.the difference between the potential subniche and the subniche correspond to the observe biological constraint (Karasiewicz \emph{et al.}, in review) .
 #'
-#'  The subniches of a single species can only be compared to \emph{G} as it is the common origin to all subsets. Whereas \emph{G'} is only common to the species found within the
+#'  The subniches of a single species can only be compared to \emph{G} as it is the common origin to all subsets. Whereas \emph{G_k} is only common to the species found within the
 #' subset. So comparing different subniches of one species, found within different subsets, is only relevant to \emph{G}. The community's subniches can be compared to both \emph{G}
-#' and \emph{G'}, but \emph{G}, being the overall average habitat conditions, will not express the specificity of the environmental conditions that the species
-#' encountered at the subscale. \emph{G'}, being the average subset habitat conditions, will reflect the atypical value of the habitat conditions, making the
+#' and \emph{G_k}, but \emph{G}, being the overall average habitat conditions, will not express the specificity of the environmental conditions that the species
+#' encountered at the subscale. \emph{G_k}, being the average subset habitat conditions, will reflect the atypical value of the habitat conditions, making the
 #' comparison of the community's subniches parameters more relevant. The observation the biological constraint on a species subniche can be use for further analysis and interpretation.
 #'
 #' @references Doledec S., Chessel D. and Gimaret C. (2000). Niche separation in community analysis: a new method. \emph{Ecology},\bold{81}, 2914-1927.
@@ -50,7 +50,7 @@
 #'
 #' Thomas D.L., Taylor E.J., (1990). Study designs and tests for comparing resource use and availability.\emph{ J. Wildl. Manage.}, \bold{54}, 322-330.
 #'
-#' Karasiewicz S.,Doledec S.and Lefebvre S. (submitted). Within Outlying Mean Indexes: refining the OMI analysis for the realized niche decomposition.
+#' Karasiewicz S.,Doledec S.and Lefebvre S. (in review). Within Outlying Mean Indexes: refining the OMI analysis for the realized niche decomposition.
 #' @seealso \link[ade4]{niche} \link[ade4]{niche.param}
 #' @examples
 #' library(ade4)
@@ -80,7 +80,7 @@
 #'#Calculates the subniches' parameters from G with the corresponding rtest
 #'subparam.refor(subnic1)
 #'rtestrefor(subnic1,10)
-#'#Calculates the subniches' parameters from G' with the corresponding rtest
+#'#Calculates the subniches' parameters from G_k with the corresponding rtest
 #'subparam.subor(subnic1)
 #'rtestsubor(subnic1,10)
 #' @export subniche
@@ -158,7 +158,7 @@ print.subniche <- function (x, ...)
   sumry[6, ] <- c("$c1", nrow(x$c1), ncol(x$c1), "variables normed scores")
   sumry[7, ] <- c("$ls", nrow(x$ls), ncol(x$ls), "sites coordinates")
   sumry[8, ] <- c("$as", nrow(x$as), ncol(x$as), "axis upon niche axis")
-  sumry[9, ] <- c("$mav", nrow(x$mav), ncol(x$mav), "G' coordinates")
+  sumry[9, ] <- c("$mav", nrow(x$mav), ncol(x$mav), "G_k coordinates")
   sumry[10, ] <- c("$mus", nrow(x$mus), ncol(x$mus), "species coordinates at each subscale")
 
   print(sumry, quote = FALSE)
@@ -216,7 +216,7 @@ margvect <- function (x, xax = 1, yax = 2, ...)
   s.corcircle(x$as, xax, yax, sub = "Axis", csub = 2, clabel = 1.25)
   s.arrow(x$c1, xax, yax, sub = "Variables", csub = 2, clabel = 1.25)
   scatterutil.eigen(x$eig, wsel = c(xax, yax))
-  s.label(x$ls, xax, yax, clabel = 0, cpoint = 2, sub = "G' marginality vectors",
+  s.label(x$ls, xax, yax, clabel = 0, cpoint = 2, sub = "G_k marginality vectors",
           csub = 2)
   s.arrow(x$mav, xax, yax,  clabel = 1.5, add.plot=T)
   s.chull(x$ls, x$factor,clabel = 1.5, sub = "Available Resource units",csub = 2, optchull = 1, cpoint = 1)

@@ -17,4 +17,3 @@ list of submatrices
 \description{
 separate matrix by rows into submatrices
 }
-

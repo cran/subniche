@@ -1,7 +1,7 @@
 Package: subniche
 Title: Within Outlying Mean Indexes: Refining the OMI Analysis
-Version: 0.9.2
-Date: 2017-02-03
+Version: 0.9.3
+Date: 2017-03-15
 Author: Stephane Karasiewicz
 Maintainer: Stephane Karasiewicz <stephane.karasiewicz@wanadoo.fr>
 Description: Complementary multivariate analysis to the Outlying Mean Index
@@ -11,8 +11,8 @@ Suggests: ade4TkGUI, adegraphics, ape, CircStats, deldir, lattice,
         maptools, MASS, pixmap, spdep, splancs, waveslim
 Depends: ade4
 License: GPL (>= 2)
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-02-03 13:43:38 UTC; skarasiewicz
+Packaged: 2017-03-15 09:09:07 UTC; skarasiewicz
 Repository: CRAN
-Date/Publication: 2017-02-03 14:57:13
+Date/Publication: 2017-03-15 13:19:40
