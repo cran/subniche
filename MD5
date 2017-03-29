@@ -1,6 +1,7 @@
-e5bc2db7de1b8942b80cfaa8133d0ed0 *DESCRIPTION
-1639edad62159f783af6ecdf5ecfb2b1 *NAMESPACE
+dae8c6ab9bc20c17a0bddab4c272a689 *DESCRIPTION
+7e2e1b541e2d8ef19bec7adda0c7e98a *NAMESPACE
 7f30aec52116335fa0b1c2cc876a1e3b *R/sepfactorrow.R
-641398eafe5a742ee96209951fed9181 *R/subniche.R
+6bed92c4aad0ffa8fd984f03d8edf157 *R/subniche.R
+d770ce26f7a32df2f4a36d9bb23d7a5f *inst/CITATION
 0a0d3ae08c8b5bbc24e019bcb8a09940 *man/sep.factor.row.Rd
-0eba4f700771cfbd56fee3882e0ce6c4 *man/subniche.Rd
+3d5b8b9af8e4672ba3d278cca82ba136 *man/subniche.Rd
