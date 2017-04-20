@@ -11,14 +11,14 @@
 #' @param object an object of class \code{subniche}.
 #' @param xax specify the x column in your matrix
 #' @param yax specify the y column in your matrix
-#' @param colo string of character specifying the subsets color
+#' @param colo string of character specifying the subsets color. Default color is rezd.
 #' @param ...	further arguments passed to or from other methods
 #' @param sim a numeric vector of simulated values
 #' @param obs a numeric vector of an observed value
-#' @param alter a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two-sided"
+#' @param alter a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two-sided".he length must be equal to the length of the vector obs, values are recycled if shorter.
 #' @param names a vector of names for tests
-#' @param subpvalue the subset pvalue resulting from subkrandtest function
-#' @param p.adjust.method	a string indicating a method for multiple adjustment, see p.adjust.methods for possible choices.
+#' @param subpvalue the subset pvalue resulting from \code{subkrandtest} function
+#' @param p.adjust.method	a string indicating a method for multiple adjustment, see \link[stats]{p.adjust.methods} for possible choices.
 #' @param call a call order
 #' @param nrepet the number of permutations for the testing procedure
 #' @return Adds items in the niche list and changing the class into \code{subniche} containing:
@@ -48,14 +48,18 @@
 #' and \emph{G_k}, but \emph{G}, being the mean environmental conditions found within the full scale, will not express the specificity of the environmental conditions that the species
 #' encountered at the subset. \emph{G_k}, being the mean environmental conditions of the subset, will reflect the atypical value of the environmental condition, making the
 #' comparison of the community's subniches parameters more relevant.
+#'
+#' For more details description on the package use:\url{https://github.com/KarasiewiczStephane/WitOMI}.
+#'
 #' @references Doledec S., Chessel D. and Gimaret C. (2000). Niche separation in community analysis: a new method. \emph{Ecology},\bold{81}, 2914-1927.
 #'
 #' Calenge C., Dufour A.B. and Maillard D. (2005). K-select analysis: a new method to analyse habitat selection in radio-tracking studies. \emph{Ecological modelling}, \bold{186}, 143-153.
 #'
-#' Karasiewicz S.,Doledec S.and Lefebvre S. (submitted). Within outlying mean indexes: refining the OMI analysis for the realized niche decomposition.
+#' Karasiewicz, S., Doledec, S., Lefebvre, S., (2017). Within outlying mean indexes: Refining the omi analysis for the realized niche decomposition. \emph{PeerJ Preprints}. \url{https://doi.org/10.7287/peerj.preprints.2810v1}.
+
 #' @seealso \link[ade4]{niche} \link[ade4]{niche.param}
 #' @examples
-#' library(subniche)
+#'library(subniche)
 #'data(doubs)
 #'dudi1 <- dudi.pca(doubs$env, scale = TRUE, scan = FALSE, nf = 3)
 #'nic1 <- niche(dudi1, doubs$fish, scann = FALSE)
@@ -94,7 +98,6 @@ subniche <- function(nic, factor){
   appel <- as.list(nic$call)
   Y <- eval.parent(appel[[3]])
   liani <- split(as.data.frame(nic$ls), factor)
-  N <- max(as.numeric(levels(factor)))
   liwei <- sep.factor.row(Y,factor)
   for(i in 1:length(liwei)){
     w <- liwei[[i]]
@@ -324,17 +327,22 @@ subplot <- function (x, xax = 1, yax = 2, colo=NULL, ...)
   on.exit(par(def.par))
   op <- par(oma = c(0,0,0,0) + 0.1,
             mar = c(0,0,0,0) + 0.1)
-  f <- factor(sort(rep(levels(x$factor),nrow(x$li))))
+  nam <- levels(x$factor)
+  f <- c()
+  for (i in 1:length(nam)){
+    f <- c(f,rep(nam[i],nrow(x$li)))
+  }
+  f <- factor(f)
   G_k <- x$G_k
   mut <- x$sub
   for (i in 1:length(levels(x$factor)))
   {
-    s.distri(x$ls, eval.parent(as.list(x$call)[[3]]), cstar = 0,axesell = FALSE, cellipse = 0, cpoint=0, sub = i, csub = 2)
-    s.distri(x$ls[x$factor==i,], eval.parent(as.list(x$call)[[3]])[x$factor==i,], cstar = 0,axesell = FALSE, cellipse = 0, cpoint=1, sub = i, csub = 2,add.plot = T)
-    s.label(mut[f==i,],label=rownames(x$li),add.plot = T)
-    arrows(G_k[array(levels(x$factor)==i), 1],G_k[array(levels(x$factor)==i), 2],  mut[f==i,1],mut[f==i,2], length = 0.1)
-    points(G_k[array(levels(x$factor)==i),],pch=16, col=colo[i])
-    s.chull(x$ls[x$factor==i,], factor(rep(1,length(x$factor[which(x$factor==i)]))), clabel = 0,col=colo[i], optchull = 1, cpoint = 0,add.plot = T)
+    s.distri(x$ls, eval.parent(as.list(x$call)[[3]]), cstar = 0,axesell = FALSE, cellipse = 0, cpoint=0, sub = nam[i], csub = 2)
+    s.distri(x$ls[x$factor==nam[i],], eval.parent(as.list(x$call)[[3]])[x$factor==nam[i],], cstar = 0,axesell = FALSE, cellipse = 0, cpoint=1, sub = nam[i], csub = 2,add.plot = T)
+    s.label(mut[f==nam[i],],label=rownames(x$li),add.plot = T)
+    arrows(G_k[array(levels(x$factor)==nam[i]), 1],G_k[array(levels(x$factor)==nam[i]), 2],  mut[f==nam[i],1],mut[f==nam[i],2], length = 0.1)
+    points(G_k[array(levels(x$factor)==nam[i]),],pch=16, col=colo[i])
+    s.chull(x$ls[x$factor==nam[i],], factor(rep(1,length(x$factor[which(x$factor==nam[i])]))), clabel = 0,col=colo[i], optchull = 1, cpoint = 0,add.plot = T)
     s.chull(x$ls,factor(rep(i,length(x$ls[,1]))), clabel = 0,col="black", optchull = 1, cpoint = 0,add.plot = T)
 
   }
@@ -471,10 +479,11 @@ subparam.refor <- function(x){
     res <- apply(Y, 2, calcul.param, mil = X)
     t(res)
   }
-  N <- max(as.numeric(levels(factor)))
+  N <-length(levels(x$factor))
+  nam <- levels(factor)
   for(i in 1:N){
-    res[[i]] <-  subniche.param(x,array(factor)==i)
-    rownames(res[[i]]) <- paste(rownames(x$li),i,sep="")
+    res[[i]] <-  subniche.param(x,array(factor)==nam[i])
+    rownames(res[[i]]) <- paste(rownames(x$li),nam[i],sep="")
     }
   res <- do.call("rbind",res)
   return(res)
@@ -484,7 +493,8 @@ subparam.refor <- function(x){
 rtestrefor <- function(x, nrepet){
 factor <- x$factor
 res <- list()
-N <- max(as.numeric(levels(factor)))
+N <-length(levels(x$factor))
+nam <- levels(factor)
 appel <- as.list(x$call)
 X <- eval.parent(appel[[2]])$tab
 Y <- eval.parent(appel[[3]])
@@ -493,19 +503,20 @@ calcul.margi <- function(freq, mil) {
   return(sum(m^2))
 }
 for(i in 1:N){
-  X1 <- X[array(factor)==i,]
+  X1 <- X[array(factor)==nam[i],]
   Xwobs <- apply(X1, 2, mean)
-  Xsim <- sapply(1:nrepet, function(x) apply(t <- apply(X, 2, sample)[array(factor)==i,], 2, mean))
+  Xsim <- sapply(1:nrepet, function(x) apply(t <- apply(X, 2, sample)[array(factor)==nam[i],], 2, mean))
   Xtest <- subkrandtest(obs=Xwobs, sim=t(Xsim), "two-sided")
-  w1 <- apply(Y[array(factor)==i,], 2, sum)
-  Y1 <- sweep(Y[array(factor)==i,], 2, w1, "/")
+  w1 <- apply(Y[array(factor)==nam[i],], 2, sum)
+  Y1 <- sweep(Y[array(factor)==nam[i],], 2, w1, "/")
   obs <- apply(Y1, 2, calcul.margi, mil = X1)
   obs <- c(obs, OMI.mean = mean(obs,na.rm=TRUE))
-  sim <- sapply(1:nrepet, function(x) apply(sweep(t <- apply(Y, 2, sample)[array(factor)==i,], 2,apply(t, 2, sum),"/"), 2, calcul.margi, mil = X1))
+  sim <- sapply(1:nrepet, function(x) apply(sweep(t <- apply(Y, 2, sample)[array(factor)==nam[i],], 2,apply(t, 2, sum),"/"), 2, calcul.margi, mil = X1))
   sim <- rbind(sim, OMI.mean = apply(sim, 2, mean,na.rm=TRUE))
   omitest <- subnikrandtest(obs = obs, sim = t(sim),subpvalue= Xtest$subpvalue)
   res[[i]] <- list("Subsettest" = Xtest, "witomigtest" = omitest)
 }
+names(res) <- nam
 return(res)
 }
 #' @rdname subniche
@@ -544,9 +555,10 @@ subparam.subor <- function(x){
     res <- apply(Y, 2, calcul.param, mil = X)
     t(res)
   }
-  N <- max(as.numeric(levels(factor)))
+  N <-length(levels(x$factor))
+  nam <- levels(factor)
   for(i in 1:N){
-    res[[i]] <-  subnichesub.param(x,array(factor)==i)
+    res[[i]] <-  subnichesub.param(x,array(factor)==nam[i])
     rownames(res[[i]]) <- paste(rownames(x$li),i,sep="")
   }
   res <- do.call("rbind",res)
@@ -557,7 +569,8 @@ subparam.subor <- function(x){
 rtestsubor <- function(x, nrepet){
   factor <- x$factor
   res <- list()
-  N <- max(as.numeric(levels(factor)))
+  N <-length(levels(x$factor))
+  nam <- levels(factor)
   appel <- as.list(x$call)
   X <- eval.parent(appel[[2]])$tab
   Y <- eval.parent(appel[[3]])
@@ -566,20 +579,21 @@ rtestsubor <- function(x, nrepet){
     return(sum(m^2))
   }
   for(i in 1:N){
-    X1 <- X[array(factor)==i,]
+    X1 <- X[array(factor)==nam[i],]
     Xwobs <- apply(X1, 2, mean)
     Xobs <- sweep(X1, 2,Xwobs,"-")
-    Xsim <- sapply(1:nrepet, function(x) apply(t <- apply(X, 2, sample)[array(factor)==i,], 2, mean))
+    Xsim <- sapply(1:nrepet, function(x) apply(t <- apply(X, 2, sample)[array(factor)==nam[i],], 2, mean))
     Xtest <- subkrandtest(obs=Xwobs, sim=t(Xsim), "two-sided")
-    w1 <- apply(Y[array(factor)==i,], 2, sum)
-    Y1 <- sweep(Y[array(factor)==i,], 2, w1, "/")
+    w1 <- apply(Y[array(factor)==nam[i],], 2, sum)
+    Y1 <- sweep(Y[array(factor)==nam[i],], 2, w1, "/")
     obs <- apply(Y1, 2, calcul.margi, mil = Xobs)
     obs <- c(obs, OMI.mean = mean(obs,na.rm=TRUE))
-    sim <- sapply(1:nrepet, function(x) apply(sweep(t <- apply(Y, 2, sample)[array(factor)==i,], 2,apply(t, 2, sum),"/"), 2, calcul.margi, mil = Xobs))
+    sim <- sapply(1:nrepet, function(x) apply(sweep(t <- apply(Y, 2, sample)[array(factor)==nam[i],], 2,apply(t, 2, sum),"/"), 2, calcul.margi, mil = Xobs))
     sim <- rbind(sim, OMI.mean = apply(sim, 2, mean,na.rm=TRUE))
     omitest <- subnikrandtest(obs = obs, sim = t(sim),subpvalue=Xtest$subpvalue)
     res[[i]] <- list("Subsettest" = Xtest, "witomig_ktest" = omitest)
   }
+  names(res) <- nam
   return(res)
 }
 #' @rdname subniche

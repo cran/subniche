@@ -1,7 +1,12 @@
-dae8c6ab9bc20c17a0bddab4c272a689 *DESCRIPTION
+3a7807a20deab82d88c6b15845bd297e *DESCRIPTION
 7e2e1b541e2d8ef19bec7adda0c7e98a *NAMESPACE
+1759577b849ccc28d090b841b7cdb286 *R/data.R
 7f30aec52116335fa0b1c2cc876a1e3b *R/sepfactorrow.R
-6bed92c4aad0ffa8fd984f03d8edf157 *R/subniche.R
+601b77c58ee66aa1989bd24b69b1b7a1 *R/subniche.R
+4b890b65a0adda76c003a1c985ca247d *data/ardecheinv.rda
+514a8db1207ffec0c5d5acdc0f44e1f5 *data/drome.rda
 d770ce26f7a32df2f4a36d9bb23d7a5f *inst/CITATION
+6d76cea9aee542506f8998fbe8df8674 *man/ardecheinv.Rd
+3d1869b555c93f4ae6d9ef5f68cff4c4 *man/drome.Rd
 0a0d3ae08c8b5bbc24e019bcb8a09940 *man/sep.factor.row.Rd
-3d5b8b9af8e4672ba3d278cca82ba136 *man/subniche.Rd
+0e730e19cb60819d5ca6caadc1dd0b74 *man/subniche.Rd
