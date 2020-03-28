@@ -1,4 +1,4 @@
-0ae2813d64d9ce434e11b0c4b2264a80 *DESCRIPTION
+cf5db6de1b1220debcfdb24ecba4b835 *DESCRIPTION
 99696199bf5d792e4d7fac9be520f211 *NAMESPACE
 0a8694619f8fadff91e913f03bb0d5cb *R/add_legend.R
 75645407ebabf838d970cb9d71b74035 *R/data.R
@@ -6,7 +6,7 @@
 5f4482b3afcb4e3101af00e95ef0e707 *R/plot.subniche.R
 4681d5740efb45d4ab604efe95707473 *R/plot_dym_sp.R
 7f30aec52116335fa0b1c2cc876a1e3b *R/sepfactorrow.R
-3828fd8bd91861d10f01c69ddab62a30 *R/subarea.R
+c64888e0965dff0fdd70d74f23557607 *R/subarea.R
 223d6d570b74f198c74c4b752ebacd97 *R/subniche.R
 4b38a85dbd4160db919fd1074ab68910 *R/subplot.R
 a13470ca41bfaee3949e7d32f190d12f *R/subplot_sp.R
