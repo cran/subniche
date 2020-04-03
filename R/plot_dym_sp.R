@@ -4,6 +4,8 @@
 #' @param subnic an object of class \code{subniche}.
 #' @param sp a character string of the species name.
 #' @param main a main title for the plot, see \link[graphics]{title} for more details.
+#' @param xlab label for x-axis, see \link[graphics]{title} for more details.
+#' @param ylab label for y-axis, see \link[graphics]{title} for more details.
 #' @param col.arrow arrow color, see \link[graphics]{arrows} for more details.
 #' @param angle.arrow arrow angle head, see \link[graphics]{arrows} for more details.
 #' @param lwd.arrow arrow width, see \link[graphics]{arrows} for more details.
@@ -58,10 +60,11 @@
 #' @importFrom graphics par layout arrows points legend polygon abline text
 #' @importFrom wordcloud textplot
 #' @importFrom siar convexhull
-plot_dym_sp <- function(subnic, sp, main=NA, col.axis="azure3", lty.axis=2, lwd.axis=2, border.E="#92c5de", col.E="#92c5de",
-                        lty.E=1, lwd.E=1, border.NR ="#fdb462", col.NR ="#fdb462",border.SR="#a1d99b", col.SR="#a1d99b",
-                        col.SRc="black", lty.SR=1, lwd.SR=1, pch.SR=19, cex.SR=1, lty.NR=1, lwd.NR=2, col.arrow="black",
-                        col.sp="black",cex.sp=1, show.lines=F, angle.arrow=20, lwd.arrow=2, length.arrow=0.1,font.sp=1,
+plot_dym_sp <- function(subnic, sp, xlab=NULL, ylab=NULL, main=NA, col.axis="azure3", lty.axis=2, lwd.axis=2,
+                        border.E="#92c5de", col.E="#92c5de", lty.E=1, lwd.E=1, border.NR ="#fdb462",
+                        col.NR ="#fdb462",border.SR="#a1d99b", col.SR="#a1d99b", col.SRc="black", lty.SR=1,
+                        lwd.SR=1, pch.SR=19, cex.SR=1, lty.NR=1, lwd.NR=2, col.arrow="black", col.sp="black",
+                        cex.sp=1, show.lines=F, angle.arrow=20, lwd.arrow=2, length.arrow=0.1,font.sp=1,
                         posi.leg="topleft", bty.leg="n", ...){
 
 fac <- subnic$factor
@@ -70,13 +73,17 @@ ar_sub <- subarea(subnic)
 eig <- round(subnic$eig/sum(subnic$eig)*100,2)[1:2]
 E <- ar_sub$E
 NR <- ar_sub$NR[[sp]]
-plot(subnic$ls, main=main, xlab= paste("OMI1 ", eig[1], "%", sep=""),
-     ylab= paste("OMI2 ", eig[2], "%", sep=""), type="n",...)
+if(is.null(xlab)){
+  xlab=paste(paste("OMI1",eig[1], sep=" "),"%",sep="")}
+if(is.null(ylab)){
+  ylab=paste(paste("OMI1",eig[2], sep=" "),"%",sep="")}
+plot(subnic$ls, main=main, xlab= xlab,
+     ylab= ylab, type="n",...)
 polygon(E$x, E$y, border=border.E, col=col.E, lty=lty.E, lwd=lwd.E)
 polygon(NR$x,NR$y, border=border.NR, col=col.NR, lty=lty.NR,lwd= lwd.NR )
-spli <- subnic$sub[grep(sp,rownames(subnic$sub)),]
+nami <- paste(sp, lev, sep="")
+spli <- subnic$sub[rownames(subnic$sub)%in%nami,]
 colnames(spli) <- colnames(subnic$li)
-nami <- rownames(spli)
 levi <- sub(sp,"",nami)
 M <- length(levi)
 if(is.na(col.sp[M])){

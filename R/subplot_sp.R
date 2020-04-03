@@ -92,12 +92,13 @@ subplot_sp <- function(subnic, sp, main=NULL, col.axis="azure3", lty.axis=2, lwd
   N <- length(lev)
   are_sub <- subarea(subnic)
   eig <- round(subnic$eig/sum(subnic$eig)*100,2)[1:2]
-  subsp <- subnic$sub[grep(sp,rownames(subnic$sub)),]
-  if(!anyNA(subsp)){
-    nami <- rownames(subsp)
-    levi <- sub(sp,"",nami)
-    M <- length(levi)
-    if(is.null(ylab)){
+  nami <- paste(sp, lev, sep="")
+  subsp <- subnic$sub[rownames(subnic$sub)%in%nami,]
+  nami <- rownames(subsp)[which(is.na(subsp[,1])==F)]
+  subsp <- subsp[which(is.na(subsp[,1])==F),]
+  levi <- sub(sp,"",nami)
+  M <- length(levi)
+    if(is.null(xlab)){
     xlab=paste(paste("OMI1",eig[1], sep=" "),"%",sep="")}
     if(is.null(ylab)){
     ylab=paste(paste("OMI1",eig[2], sep=" "),"%",sep="")}
@@ -119,25 +120,4 @@ subplot_sp <- function(subnic, sp, main=NULL, col.axis="azure3", lty.axis=2, lwd
            col=col.arrow,lwd=lwd.arrow, length=length.arrow)
       text(subsp[nami[i],1], subsp[nami[i],2],nami[i], col=col.sp, cex=cex.sp)
       }
-    } else {
-      nami <- rownames(subsp)[which(is.na(subsp[,1])==F)]
-      subsp<- subsp[-which(is.na(subsp[,1])==T),]
-      levi <- sub(sp,"",nami)
-      plot(subnic$ls, main=main,  xlab=xlab, ylab= ylab, type="n",...)
-      E <- are_sub$E
-      K <- are_sub$K[[levi]]
-      NR <- are_sub$NR[[sp]]
-      SR <- are_sub$SR[[levi]][[nami]]
-      SP <- are_sub$SP[[levi]][[nami]]
-      polygon(E$x,E$y, border=border.E, col=col.E, lty=lty.E, lwd=lwd.E)
-      polygon(K$x,K$y, border=border.K, col=col.K, lty=lty.K, lwd=lwd.K)
-      polygon(NR$x,NR$y, border=border.NR, col=col.NR, lty=lty.NR, lwd=lwd.NR)
-      polygon(SP$x,SP$y, border=border.SP, col=col.SB, lty=lty.SP, lwd=lwd.SP)
-      polygon(SR$x,SR$y, border=border.SR, col=col.SR, lty=lty.SR, lwd=lwd.SR)
-      G_k <- subnic$G_k[grep(levi,rownames(subnic$G_k)),]
-      points(G_k[,1], G_k[,2], col=col.G_k, pch=pch.G_k, cex= cex.G_k)
-      arrows(G_k[,1],G_k[,2],subsp[1], subsp[2], angle=angle.arrow,
-             col=col.arrow,lwd=lwd.arrow, length=length.arrow)
-      text(subsp[1], subsp[2],nami, col=col.sp, cex=cex.sp)
     }
-  }

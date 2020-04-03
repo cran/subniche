@@ -69,6 +69,11 @@ subplot <- function(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3", 
                     pch.G_k=19, col.su="#b35806", cex.su=0.5, pch.su=1, posi.leg="topleft", bty.leg="n", ...){
   fac <- subnic$factor
   lev <- levels(fac)
+  eig <- round(subnic$eig/sum(subnic$eig)*100,2)[1:2]
+  if(is.null(xlab)){
+    xlab=paste(paste("OMI1",eig[1], sep=" "),"%",sep="")}
+  if(is.null(ylab)){
+    ylab=paste(paste("OMI1",eig[2], sep=" "),"%",sep="")}
   N <- length(lev)
   subsp <- subnic$sub
   if(anyNA(subsp))

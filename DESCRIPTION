@@ -1,7 +1,7 @@
 Package: subniche
 Title: Within Outlying Mean Indexes: Refining the OMI Analysis
-Version: 1.1
-Date: 2020-03-28
+Version: 1.2
+Date: 2020-04-03
 Author: Stephane Karasiewicz
 Maintainer: Stephane Karasiewicz <skaraz.science@gmail.com>
 Description: Complementary indexes calculation to the Outlying Mean Index analysis to explore niche shift of a community and biological constraint within an Euclidean space, with graphical displays.
@@ -13,6 +13,6 @@ RoxygenNote: 7.1.0
 NeedsCompilation: no
 BugReports: https://github.com/KarasiewiczStephane/WitOMI/issues
 LazyData: true
-Packaged: 2020-03-28 14:25:18 UTC
+Packaged: 2020-04-03 15:11:32 UTC
 Repository: CRAN
-Date/Publication: 2020-03-28 15:20:02 UTC
+Date/Publication: 2020-04-03 16:00:06 UTC

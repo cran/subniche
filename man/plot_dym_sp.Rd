@@ -7,6 +7,8 @@
 plot_dym_sp(
   subnic,
   sp,
+  xlab = NULL,
+  ylab = NULL,
   main = NA,
   col.axis = "azure3",
   lty.axis = 2,
@@ -43,6 +45,10 @@ plot_dym_sp(
 \item{subnic}{an object of class \code{subniche}.}
 
 \item{sp}{a character string of the species name.}
+
+\item{xlab}{label for x-axis, see \link[graphics]{title} for more details.}
+
+\item{ylab}{label for y-axis, see \link[graphics]{title} for more details.}
 
 \item{main}{a main title for the plot, see \link[graphics]{title} for more details.}
 

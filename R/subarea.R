@@ -90,7 +90,7 @@ subarea <- function(subnic){
         res$SR[[i]][[j]] <- list(TA=NULL,x=subnic$ls[which(occfact==1),1], y=subnic$ls[which(occfact==1),2], samples=rownames(subnic$ls[which(occfact==1),]))
       }
     }
-    names(res$SR[[i]]) <- paste(subnam,lev[i], sep="_")
+    names(res$SR[[i]]) <- paste(subnam,lev[i], sep="")
   }
   names(res$SR) <- lev
 
