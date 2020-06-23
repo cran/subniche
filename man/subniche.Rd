@@ -82,7 +82,7 @@ subnikrandtest(
 
 \item{names}{a vector of names for tests}
 
-\item{p.adjust.method}{a string indicating a method for multiple adjustment, see \link[stats]{p.adjust.methods} for possible choices.}
+\item{p.adjust.method}{a string indicating a method for multiple adjustment, see \link[stats:p.adjust]{p.adjust.methods} for possible choices.}
 
 \item{subpvalue}{the subset pvalue resulting from \code{subkrandtest} function}
 }
@@ -166,7 +166,7 @@ Doledec S., Chessel D. and Gimaret C. (2000). Niche separation in community anal
 Thomas, D.L., Taylor, E.J. (1990). Study Designs and Tests for Comparing Resource Use and Availability II. \emph{Natl. Widl.} \bold{54}(2), 322-330.
 }
 \seealso{
-\link[ade4]{niche} \link[ade4]{niche.param}
+\link[ade4]{niche} \link[ade4:niche]{niche.param}
 }
 \author{
 Stephane Karasiewicz, \email{stephane.karasiewicz@wanadoo.fr}

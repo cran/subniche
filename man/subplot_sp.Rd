@@ -4,15 +4,56 @@
 \alias{subplot_sp}
 \title{Plot a species subniche under each sub-environmental space K}
 \usage{
-subplot_sp(subnic, sp, main=NULL, col.axis="azure3", lty.axis=2, lwd.axis=2,
-xlab=NULL, ylab=NULL, col.sublab="black", font.sublab=2, cex.sublab=0.7, show.lines=F,
-border.E="#92c5de", col.E="#92c5de", lty.E=1, lwd.E=1, border.K ="#2c7fb8",lwd.K=1,
-col.K ="#2c7fb8", lty.K=1, col.arrow="black",angle.arrow=20, lwd.arrow=2,
-length.arrow=0.1, col.G_k= "red", cex.G_k=1, border.SP="#fec44f", col.SB="#d95f0e",
-lty.SP=1, lwd.SP=1, border.NR ="#fdb462", col.NR =NA,cex.sp=1, col.sp="black",
-border.SR="#a1d99b", col.SR="#a1d99b", col.SRc="black", lty.SR=1, lwd.SR=1, pch.SR=19,
-cex.SR=1, lty.NR=1, lwd.NR=2, pch.G_k=19, col.su="#b35806", cex.su=0.5, pch.su=1,
-posi.leg="topleft", bty.leg="n", ... )
+subplot_sp(
+  subnic,
+  sp,
+  main = NULL,
+  col.axis = "azure3",
+  lty.axis = 2,
+  lwd.axis = 2,
+  xlab = NULL,
+  ylab = NULL,
+  border.E = "black",
+  col.E = "#92c5de",
+  lty.E = 1,
+  lwd.E = 1,
+  border.K = "black",
+  lwd.K = 1,
+  col.K = "#2c7fb8",
+  lty.K = 1,
+  col.Gk.pos = "red",
+  col.Gk.pt = "black",
+  cex.Gk.pos = 1,
+  pch.Gk.pos = 21,
+  border.SP = "#bc5090",
+  col.SB = "#d95f0e",
+  lty.SP = 1,
+  lwd.SP = 2,
+  border.NR = "#fdb462",
+  col.NR = NA,
+  lty.NR = 1,
+  lwd.NR = 2,
+  border.SR = "#a1d99b",
+  col.SR = "#a1d99b",
+  lty.SR = 1,
+  lwd.SR = 1,
+  pch.SR.pos = 19,
+  cex.SR.pos = 1,
+  col.SR.pt = "black",
+  col.SR.pos = "black",
+  cex.SR.lab = 0.7,
+  col.SR.lab = "black",
+  fac.SR.lab = 1.2,
+  font.sp = 2,
+  col.arrow = "black",
+  angle.arrow = 20,
+  lwd.arrow = 2,
+  length.arrow = 0.1,
+  leg = T,
+  posi.leg = "topleft",
+  bty.leg = "n",
+  ...
+)
 }
 \arguments{
 \item{subnic}{an object of class \code{subniche}.}
@@ -31,14 +72,6 @@ posi.leg="topleft", bty.leg="n", ... )
 
 \item{ylab}{label for y-axis, see \link[graphics]{title} for more details.}
 
-\item{col.sublab}{color of the species labels, see \link[wordcloud]{textplot} for more details.}
-
-\item{font.sublab}{font of the species labels, see \link[wordcloud]{textplot} for more details.}
-
-\item{cex.sublab}{size of the species labels, see \link[wordcloud]{textplot} for more details.}
-
-\item{show.lines}{if true, then lines are plotted between x,y and the word, for those words not covering their x,y coordinates. See \link[wordcloud]{textplot} for more details.}
-
 \item{border.E}{color border of E polygon, see \link[graphics]{polygon} for more details.}
 
 \item{col.E}{inside color of E polygon, see \link[graphics]{polygon} for more details.}
@@ -55,17 +88,13 @@ posi.leg="topleft", bty.leg="n", ... )
 
 \item{lty.K}{line type for the K border, see \link[graphics]{polygon} for more details.}
 
-\item{col.arrow}{arrow color, see \link[graphics]{arrows} for more details.}
+\item{col.Gk.pos}{color of the point representing G_k, see \link[graphics]{points} for more details.}
 
-\item{angle.arrow}{arrow angle head, see \link[graphics]{arrows} for more details.}
+\item{col.Gk.pt}{point color contour if pch=21:25.}
 
-\item{lwd.arrow}{arrow width, see \link[graphics]{arrows} for more details.}
+\item{cex.Gk.pos}{size of the point representing G_k, see \link[graphics]{points} for more details.}
 
-\item{length.arrow}{arrow head length, see \link[graphics]{arrows} for more details.}
-
-\item{col.G_k}{color of the point representing G_k, see \link[graphics]{points} for more details.}
-
-\item{cex.G_k}{size of the point representing G_k, see \link[graphics]{points} for more details.}
+\item{pch.Gk.pos}{type of the point representing G_k, see \link[graphics]{points} for more details.}
 
 \item{border.SP}{color border of species subniche polygon, see \link[graphics]{polygon} for more details.}
 
@@ -79,35 +108,43 @@ posi.leg="topleft", bty.leg="n", ... )
 
 \item{col.NR}{inside color of NR polygon, see \link[graphics]{polygon} for more details.}
 
-\item{cex.sp}{size of the species label representing the NR position, see \link[wordcloud]{textplot} for more details.}
+\item{lty.NR}{line type for the NR border, see \link[graphics]{polygon} for more details.}
 
-\item{col.sp}{color of the species label representing the NR position, see \link[wordcloud]{textplot} for more details.}
+\item{lwd.NR}{line width for the NR border, see \link[graphics]{polygon} for more details.}
 
 \item{border.SR}{color border of SR polygon, see \link[graphics]{polygon} for more details.}
 
 \item{col.SR}{inside color of SR polygon, see \link[graphics]{polygon} for more details.}
 
-\item{col.SRc}{color of points representing the SR position, see \link[graphics]{points} for more details.}
-
 \item{lty.SR}{line type for the SR border, see \link[graphics]{polygon} for more details.}
 
 \item{lwd.SR}{line width for the SR border, see \link[graphics]{polygon} for more details.}
 
-\item{pch.SR}{type of points representing the SR position, see \link[graphics]{points} for more details.}
+\item{pch.SR.pos}{type of points representing the SR position, see \link[graphics]{points} for more details.}
 
-\item{cex.SR}{size of points representing the SR position, see \link[graphics]{points} for more details.}
+\item{cex.SR.pos}{size of points representing the SR position, see \link[graphics]{points} for more details.}
 
-\item{lty.NR}{line type for the NR border, see \link[graphics]{polygon} for more details.}
+\item{col.SR.pt}{point color contour if pch=21:25.}
 
-\item{lwd.NR}{line width for the NR border, see \link[graphics]{polygon} for more details.}
+\item{col.SR.pos}{color of points representing the SR position, see \link[graphics]{points} for more details.}
 
-\item{pch.G_k}{type of the point representing G_k, see \link[graphics]{points} for more details.}
+\item{cex.SR.lab}{size of the species label representing the SR position, see \link[graphics]{text} for more details.}
 
-\item{col.su}{color of the points representing the sampling units (SU), see \link[graphics]{points} for more details.}
+\item{col.SR.lab}{color of the species label representing the SR position, see \link[graphics]{text} for more details.}
 
-\item{cex.su}{size of the points representing the sampling units (SU), see \link[graphics]{points} for more details.}
+\item{fac.SR.lab}{factor for moving the SR labels from its original coordinates for clarity, by defaults they are multiply 1.2}
 
-\item{pch.su}{type of the points representing the sampling units (SU), see \link[graphics]{points} for more details.}
+\item{font.sp}{An integer which specifies which font to use for species label. 1 corresponds to plain text (the default), 2 to bold face, 3 to italic and 4 to bold italic, see \link[graphics]{par} for more details.}
+
+\item{col.arrow}{arrow color, see \link[graphics]{arrows} for more details.}
+
+\item{angle.arrow}{arrow angle head, see \link[graphics]{arrows} for more details.}
+
+\item{lwd.arrow}{arrow width, see \link[graphics]{arrows} for more details.}
+
+\item{length.arrow}{arrow head length, see \link[graphics]{arrows} for more details.}
+
+\item{leg}{a logical option for legend to be plotted or not, default leg=T.}
 
 \item{posi.leg}{legend location in the graph, see \link[graphics]{legend} for more details.}
 
@@ -131,5 +168,5 @@ fact <- factor(c(rep(1,N/2),rep(2,N/2)))
 subnic1 <- subniche(nic1, fact)
 eig <- round(subnic1$eig/sum(subnic1$eig)*100,2)[1:2]
 #Two graphs are drawn one after the other
-subplot_sp(subnic1,"Neba",main="Species subniche in K")
+subplot_sp(subnic1,"Neba")
 }

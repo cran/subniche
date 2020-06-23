@@ -18,19 +18,27 @@
 #' @param col.NR inside color of NR polygon, see \link[graphics]{polygon} for more details.
 #' @param lty.NR line type for the NR border, see \link[graphics]{polygon} for more details.
 #' @param lwd.NR line width for the NR border, see \link[graphics]{polygon} for more details.
+#' @param pch.NR.pos the type of points representing the NR position,  see \link[graphics]{points} for more details.
+#' @param col.NR.pos the color of points representing the NR position, see \link[graphics]{points} for more details.
+#' @param col.NR.pt point color contour if pch=21:25.
+#' @param cex.NR.pos size of points representing the SR position, see \link[graphics]{points} for more details.
+#' @param col.NR.lab color of the species label representing the NR position, see \link[wordcloud]{textplot} for more details.
+#' @param cex.NR.lab size of the species label representing the NR position, see \link[wordcloud]{textplot} for more details.
+#' @param fac.SR.lab factor for moving the SR labels from its original coordinates for clarity, by defaults they are multiply 1.2
 #' @param border.SR color border of SR polygon, see \link[graphics]{polygon} for more details.
 #' @param col.SR inside color of SR polygon, see \link[graphics]{polygon} for more details.
 #' @param lty.SR line type for the SR border, see \link[graphics]{polygon} for more details.
 #' @param lwd.SR line width for the SR border, see \link[graphics]{polygon} for more details.
+#' @param col.SR.pt point color contour if pch=21:25.
+#' @param col.SR.pos color of points representing the SR position, see \link[graphics]{points} for more details.
+#' @param pch.SR.pos type of points representing the SR position, see \link[graphics]{points} for more details.
+#' @param cex.SR.pos size of points representing the SR position, see \link[graphics]{points} for more details.
+#' @param col.SR.lab color of the species label representing the SR position, see \link[graphics]{text} for more details.
+#' @param cex.SR.lab size of the species label representing the SR position, see \link[graphics]{text} for more details.
 #' @param col.axis axis color, see \link[graphics]{par} for more details.
 #' @param lty.axis axis line type, see \link[graphics]{par} for more details.
 #' @param lwd.axis  axis width, see \link[graphics]{par} for more details.
-#' @param col.SRc color of points representing the SR position, see \link[graphics]{points} for more details.
-#' @param pch.SR type of points representing the SR position, see \link[graphics]{points} for more details.
-#' @param cex.SR size of points representing the SR position, see \link[graphics]{points} for more details.
-#' @param col.sp color of the species label representing the NR position, see \link[wordcloud]{textplot} for more details.
-#' @param cex.sp size of the species label representing the NR position, see \link[wordcloud]{textplot} for more details.
-#' @param show.lines if true, then lines are plotted between x,y and the word, for those words not covering their x,y coordinates, see \link[wordcloud]{textplot} for more details.
+#' @param leg a logical option for legend to be plotted or not, default leg=T.
 #' @param bty.leg the type of box to be drawn around the legend. The allowed values are "o" (the default) and "n", see \link[graphics]{legend} for more details.
 #' @param posi.leg setting legend positions with the following keywords "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center", see \link[graphics]{legend} for more details.
 #' @param font.sp An integer which specifies which font to use for species label. 1 corresponds to plain text (the default), 2 to bold face, 3 to italic and 4 to bold italic, see \link[graphics]{par} for more details.
@@ -41,7 +49,8 @@
 #' \enumerate{
 #' \item E is the environmental space.
 #' \item NR the realized subniche.
-#' \item SR the species realized subniche.}
+#' \item SR the species realized subniche.
+#' }
 #' The arrows represent the species' subniche marginality from the origin G.
 #' See \href{https://doi.org/10.7717/peerj.3364}{Karasiewicz,et al. (2017)} for more details on the subniche concept.
 #' @examples
@@ -56,96 +65,148 @@
 #' # nic1 will be use as reference and fact will be use to define the subniches environment
 #' subnic1 <- subniche(nic1, fact)
 #' plot_dym_sp(subnic1, "Neba")
-#' plot_dym_sp(subnic1,"Cyca", lwd.NR = 5, col.sp="red",lty.NR=3, border.E="green",col.E=NA, col.NR=NA)
 #' @importFrom graphics par layout arrows points legend polygon abline text
 #' @importFrom wordcloud textplot
 #' @importFrom siar convexhull
 plot_dym_sp <- function(subnic, sp, xlab=NULL, ylab=NULL, main=NA, col.axis="azure3", lty.axis=2, lwd.axis=2,
-                        border.E="#92c5de", col.E="#92c5de", lty.E=1, lwd.E=1, border.NR ="#fdb462",
-                        col.NR ="#fdb462",border.SR="#a1d99b", col.SR="#a1d99b", col.SRc="black", lty.SR=1,
-                        lwd.SR=1, pch.SR=19, cex.SR=1, lty.NR=1, lwd.NR=2, col.arrow="black", col.sp="black",
-                        cex.sp=1, show.lines=F, angle.arrow=20, lwd.arrow=2, length.arrow=0.1,font.sp=1,
-                        posi.leg="topleft", bty.leg="n", ...){
+                        border.E="black",
+                        col.E="#92c5de",
+                        lty.E=1,
+                        lwd.E=1,
+                        col.NR ="#fdb462",
+                        border.NR ="black",
+                        lty.NR=1,
+                        lwd.NR=1,
+                        col.NR.lab="black",
+                        cex.NR.lab=0.7,
+                        pch.NR.pos= 21,
+                        col.NR.pos="black",
+                        col.NR.pt="black",
+                        cex.NR.pos=1,
+                        border.SR="black",
+                        col.SR="#a1d99b",
+                        lty.SR=1,
+                        lwd.SR=1,
+                        col.SR.lab="black",
+                        cex.SR.lab=0.7,
+                        fac.SR.lab=1.2,
+                        pch.SR.pos= 21,
+                        col.SR.pos="#ffa600",
+                        col.SR.pt="black",
+                        cex.SR.pos=1,
+                        col.arrow="black",
+                        angle.arrow=20,
+                        lwd.arrow=2, length.arrow=0.1, font.sp=2, leg=T, posi.leg="topleft", bty.leg="n", ...){
+
 
 fac <- subnic$factor
 lev <- levels(fac)
 ar_sub <- subarea(subnic)
 eig <- round(subnic$eig/sum(subnic$eig)*100,2)[1:2]
 E <- ar_sub$E
+if(pch.SR.pos<21|pch.SR.pos>25){
+  col.SR.pt <- col.SR.pos
+}
+if(pch.NR.pos<21|pch.NR.pos>25){
+  col.NR.pt <- col.NR.pos
+}
 NR <- ar_sub$NR[[sp]]
 if(is.null(xlab)){
   xlab=paste(paste("OMI1",eig[1], sep=" "),"%",sep="")}
 if(is.null(ylab)){
-  ylab=paste(paste("OMI1",eig[2], sep=" "),"%",sep="")}
+  ylab=paste(paste("OMI2",eig[2], sep=" "),"%",sep="")}
 plot(subnic$ls, main=main, xlab= xlab,
      ylab= ylab, type="n",...)
 polygon(E$x, E$y, border=border.E, col=col.E, lty=lty.E, lwd=lwd.E)
-polygon(NR$x,NR$y, border=border.NR, col=col.NR, lty=lty.NR,lwd= lwd.NR )
+polygon(NR$x,NR$y, border=border.NR, col=col.NR, lty=lty.NR,lwd= lwd.NR)
+
 nami <- paste(sp, lev, sep="")
 spli <- subnic$sub[rownames(subnic$sub)%in%nami,]
 colnames(spli) <- colnames(subnic$li)
 levi <- sub(sp,"",nami)
 M <- length(levi)
-if(is.na(col.sp[M])){
-  col.SR <- rep(col.SR,M)
-  border.SR <- rep(border.SR,M)
+if(is.na(col.NR.lab[M])){
+  col.SRi <- rep(col.SR,M)
+  border.SRi <- rep(border.SR,M)
 }
 for (j in 1:M){
   SR <- ar_sub$SR[[lev[j]]]
   SR <- SR[[nami[j]]]
     if (length(SR$x)>2){
-      polygon(SR$x,SR$y, border=border.SR[j], col=col.SR[j],lty=lty.SR, lwd=lwd.SR)
+      polygon(SR$x,SR$y, border=border.SRi[j], col=col.SRi[j],lty=lty.SR, lwd=lwd.SR)
     }
     else {
-      points(SR$x,SR$y,pch=pch.SR,col=col.SR[j])
+      points(SR$x,SR$y,pch=pch.SR.pos,col=col.SR.pt[j], bg=col.SR.pos[j], cex=cex.SR.pos)
     }
 }
 abline(h=0, lty=lty.axis, lwd=lwd.axis, col=col.axis)
 abline(v=0, lty=lty.axis, lwd=lwd.axis, col=col.axis)
-points(spli[,1], spli[,2], col=col.SRc, pch=pch.SR, cex=cex.SR)
 arrows(rep(0,M),rep(0,M),spli[,1], spli[,2], angle=angle.arrow,
        col=col.arrow,lwd=lwd.arrow, length=length.arrow)
+  points(spli[,1], spli[,2], pch=pch.SR.pos, col=col.SR.pt, bg=col.SR.pos, cex=cex.SR.pos)
+points(subnic$li[sp,1], subnic$li[sp,2], pch=pch.NR.pos, col=col.NR.pt, bg=col.NR.pos, cex=cex.NR.pos)
+
 li <- rbind(subnic$li[sp,], spli)
 if(anyNA(li)){
 li <- li[-which(is.na(li)==T),]
 }
 if(sum(round(apply(li,2,diff),1))==0){
-  text(subnic$li[sp,1]*1.2,subnic$li[sp,2]*1.2,sp, col=col.sp, cex=cex.sp, font = font.sp)
+  text(subnic$li[sp,1]*fac.SR.lab,subnic$li[sp,2]*fac.SR.lab,sp, col=col.NR.lab, cex=cex.NR.lab, font = font.sp)
 } else {
-  li <- rbind(subnic$li[sp,], spli*1.2)
- text(li[,1],li[,2],rownames(li), col=col.sp, cex=cex.sp, font = font.sp)
+  li <- rbind(subnic$li[sp,]*fac.SR.lab, spli*fac.SR.lab)
+ text(li[,1],li[,2],rownames(li),col=c(col.NR.lab,col.SR.lab), cex=c(cex.NR.lab,rep(cex.SR.lab,dim(spli)[1])), font = font.sp)
 }
-col.leg <- c(col.E,col.NR,col.SR)
-pch.leg <- c(15,15,15)
-if(is.na(col.E)){
-  pch.leg[1] <- 0
-  col.leg[1] <- border.E
-}
-if(is.na(col.NR)){
-  pch.leg[2] <- 0
-  col.leg[2] <- border.NR
-}
-if(anyNA(col.SR)){
-  pch.leg[3] <- 0
-  col.leg[3] <- border.SR
-}
-lty.leg <- c(0,0,0)
-lwd.leg <- c(0,0,0)
-if(lty.E>1){
-  pch.leg[1] <- NA
-  lty.leg[1] <- lty.E
-  lwd.leg[1] <- lwd.E
-}
-if (lty.NR>1){
-  pch.leg[2] <- NA
-  lty.leg[2] <- lty.NR
-  lwd.leg[2] <- lwd.NR
-}
-if (lty.SR>1){
-  pch.leg[3] <- NA
-  lty.leg[3] <- lty.SR
-  lwd.leg[3] <- lwd.SR
-}
-legend(posi.leg, legend=c("E","NR", "SR"),pch=pch.leg, col=col.leg, lty=lty.leg, lwd=lwd.leg,
-       bty=bty.leg,...)
+
+if(isTRUE(leg)){
+  filli <- c(col.E, col.NR,NA,col.SR,NA)
+  borderi <- c(border.E, border.NR,NA, border.SR,NA)
+  col.leg <- c(NA,NA, col.NR.pt,NA,col.SR.pt)
+  col.bg <- c(NA,NA, col.NR.pos,NA,col.SR.pos)
+  pch.leg <- c(NA,NA,pch.NR.pos,NA,pch.SR.pos)
+  tex.leg <- c("E","NR","NR position","SR","SR position")
+  lty.leg <- c(0,0,NA,0,NA)
+  lwd.leg <- c(0,0,NA,0,NA)
+  posi.cex <-c(NA,NA,cex.NR.pos,NA,cex.SR.pos)
+
+  if(is.na(col.E)){
+    filli[1] <- NA
+    borderi[1] <- NA
+    tex.leg[1] <- NA
+    }
+  if(is.na(col.NR)){
+    filli[2] <- NA
+    borderi[2] <- NA
+    tex.leg[2] <- NA
+    }
+  if(anyNA(col.SR)){
+    filli[4] <- NA
+    borderi[4] <- NA
+    tex.leg[4] <- NA
+  }
+  if(anyNA(cex.NR.pos)){
+    posi.cex[3] <- NA
+    tex.leg[3] <- NA
+  }
+  if(anyNA(cex.SR.pos)){
+    posi.cex[5] <- NA
+    tex.leg[5] <- NA
+  }
+  if(lty.E>1){
+    pch.leg[1] <- NA
+    lty.leg[1] <- lty.E
+    lwd.leg[1] <- lwd.E
+    }
+  if (lty.NR>1){
+    pch.leg[2] <- NA
+    lty.leg[2] <- lty.NR
+    lwd.leg[2] <- lwd.NR
+    }
+  if (lty.SR>1){
+    pch.leg[4] <- NA
+    lty.leg[4] <- lty.SR
+    lwd.leg[4] <- lwd.SR
+    }
+  legend(posi.leg, legend=tex.leg, fill =filli, border=borderi, pch=pch.leg, col=col.leg, pt.cex = posi.cex,
+         pt.bg=col.bg, lty=lty.leg, pt.lwd=c(NA,NA,1,NA,1), lwd=lwd.leg, bty=bty.leg,...)
+  }
 }

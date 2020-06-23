@@ -4,12 +4,47 @@
 \alias{subplot}
 \title{Sub-community plot under each sub-environmental space K}
 \usage{
-subplot(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3", lty.axis=2,
-       lwd.axis=2, col.sublab="black", font.sublab=2, cex.sublab=0.7, show.lines=F,
-       border.E="#92c5de", col.E="#92c5de", lty.E=1, lwd.E=1, border.K ="#2c7fb8",
-       col.K ="#2c7fb8", lty.K=1, lwd.K=1, col.arrow="black", angle.arrow=20, lwd.arrow=2,
-       length.arrow=0.1, col.G_k= "#b35806", cex.G_k=0.5, pch.G_k=19,
-       col.su="#b35806", cex.su=0.5, pch.su=1, posi.leg="topleft", bty.leg="n", ...)
+subplot(
+  subnic,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col.axis = "azure3",
+  lty.axis = 2,
+  lwd.axis = 2,
+  pch.SR.pos = 21,
+  cex.SR.pos = 1,
+  col.SR.pt = "black",
+  col.SR.pos = "#a1d99b",
+  col.SR.lab = "black",
+  cex.SR.lab = NA,
+  fac.SR.lab = 1.2,
+  border.E = "black",
+  col.E = "#92c5de",
+  lty.E = 1,
+  lwd.E = 1,
+  border.K = "black",
+  col.K = "#2c7fb8",
+  lty.K = 1,
+  lwd.K = 1,
+  col.arrow = "black",
+  angle.arrow = 20,
+  lwd.arrow = 2,
+  length.arrow = 0.1,
+  col.Gk.pos = "red",
+  col.Gk.pt = "black",
+  cex.Gk.pos = 1,
+  pch.Gk.pos = 21,
+  col.su = "#b35806",
+  pt.su = "black",
+  cex.su = 0.7,
+  pch.su = 1,
+  font.sp = 2,
+  leg = T,
+  posi.leg = "topleft",
+  bty.leg = "n",
+  ...
+)
 }
 \arguments{
 \item{subnic}{an object of class \code{subniche}.}
@@ -26,13 +61,19 @@ subplot(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3", lty.axis=2,
 
 \item{lwd.axis}{axis width, see \link[graphics]{par} for more details.}
 
-\item{col.sublab}{color of the species labels, see \link[wordcloud]{textplot} for more details.}
+\item{pch.SR.pos}{type of the point representing SR position, see \link[graphics]{points} for more details.}
 
-\item{font.sublab}{font of the species labels, see \link[wordcloud]{textplot} for more details.}
+\item{cex.SR.pos}{size of the point representing SR position, see \link[graphics]{points} for more details.}
 
-\item{cex.sublab}{size of the species labels, see \link[wordcloud]{textplot} for more details.}
+\item{col.SR.pt}{point color contour if pch=21:25.}
 
-\item{show.lines}{if true, then lines are plotted between x,y and the word, for those words not covering their x,y coordinates. See \link[wordcloud]{textplot} for more details.}
+\item{col.SR.pos}{color of the point representing SR position, see \link[graphics]{points} for more details.}
+
+\item{col.SR.lab}{color of the species labels, see see \link[graphics]{text} for more details.}
+
+\item{cex.SR.lab}{size of the species labels defautls NA for no labels, see see \link[graphics]{text} for more details.}
+
+\item{fac.SR.lab}{factor for moving the SR labels from its original coordinates for clarity, by defaults they are multiply 1.2}
 
 \item{border.E}{color border of E polygon, see \link[graphics]{polygon} for more details.}
 
@@ -58,17 +99,25 @@ subplot(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3", lty.axis=2,
 
 \item{length.arrow}{arrow head length, see \link[graphics]{arrows} for more details.}
 
-\item{col.G_k}{color of the point representing G_k, see \link[graphics]{points} for more details.}
+\item{col.Gk.pos}{color of the point representing Gk, see \link[graphics]{points} for more details.}
 
-\item{cex.G_k}{size of the point representing G_k, see \link[graphics]{points} for more details.}
+\item{col.Gk.pt}{point color contour if pch=21:25.}
 
-\item{pch.G_k}{type of the point representing G_k, see \link[graphics]{points} for more details.}
+\item{cex.Gk.pos}{size of the point representing Gk, see \link[graphics]{points} for more details.}
+
+\item{pch.Gk.pos}{type of the point representing Gk, see \link[graphics]{points} for more details.}
 
 \item{col.su}{color of the points representing the sampling units (SU), see \link[graphics]{points} for more details.}
+
+\item{pt.su}{point color contour if pch=21:25.}
 
 \item{cex.su}{size of the points representing the sampling units (SU), see \link[graphics]{points} for more details.}
 
 \item{pch.su}{type of the points representing the sampling units (SU), see \link[graphics]{points} for more details.}
+
+\item{font.sp}{font of the species labels, see see \link[graphics]{text} for more details.}
+
+\item{leg}{a logical option for legend to be plotted or not, default leg=T.}
 
 \item{posi.leg}{legend location in the graph, see \link[graphics]{legend} for more details.}
 
@@ -77,7 +126,7 @@ subplot(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3", lty.axis=2,
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-The function to represent the community subniche position under each subenvironment K with their respective marginality from G_K.
+The function to represent the community subniche position under each subenvironment K with their respective marginality from Gk.
 }
 \examples{
 library(subniche)
@@ -92,8 +141,6 @@ fact <- factor(c(rep(1,N/2),rep(2,N/2)))
 subnic1 <- subniche(nic1, fact)
 eig <- round(subnic1$eig/sum(subnic1$eig)*100,2)[1:2]
 #Two graphs are drawn one after the other
-subplot(subnic1,main="Species subniche in K",
-xlab=paste(paste("OMI1", eig[1], sep=" "),"\%", sep=""),
-ylab=paste(paste("OMI2", eig[2], sep=" "),"\%", sep=""))
+subplot(subnic1)
 
 }

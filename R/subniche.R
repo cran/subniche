@@ -15,7 +15,7 @@
 #' @param alter a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two-sided".he length must be equal to the length of the vector obs, values are recycled if shorter.
 #' @param names a vector of names for tests
 #' @param subpvalue the subset pvalue resulting from \code{subkrandtest} function
-#' @param p.adjust.method	a string indicating a method for multiple adjustment, see \link[stats]{p.adjust.methods} for possible choices.
+#' @param p.adjust.method	a string indicating a method for multiple adjustment, see \link[stats:p.adjust]{p.adjust.methods} for possible choices.
 #' @param call a call order
 #' @param nrepet the number of permutations for the testing procedure
 #' @return Adds items in the niche list and changing the class into \code{subniche} containing:
@@ -56,7 +56,7 @@
 #'
 #' Thomas, D.L., Taylor, E.J. (1990). Study Designs and Tests for Comparing Resource Use and Availability II. \emph{Natl. Widl.} \bold{54}(2), 322-330.
 #'
-#' @seealso \link[ade4]{niche} \link[ade4]{niche.param}
+#' @seealso \link[ade4]{niche} \link[ade4:niche]{niche.param}
 #' @examples
 #'library(subniche)
 #'data(doubs)
@@ -95,30 +95,46 @@ subniche <- function(nic, factor){
   if (!inherits(nic, "niche"))
     stop("Object of class niche expected")
   appel <- as.list(nic$call)
+  X <- eval.parent(appel[[2]])
   Y <- eval.parent(appel[[3]])
-  liani <- split(as.data.frame(nic$ls), factor)
-  liwei <- sep.factor.row(Y,factor)
-  for(i in 1:length(liwei)){
-    w <- liwei[[i]]
-    w2 <- apply(w, 2, sum)
-    liwei[[i]] <- sweep(w, 2, w2, "/")
-  }
-  G_k <- as.data.frame(t(as.matrix(data.frame(lapply(liani,
-                                                     function(x) apply(x, 2, mean))))))
+  w1 <- apply(Y, 2, sum)
+  Yw <- sweep(Y, 2, w1, "/")
+  Xrow <- sweep(sweep(X$tab, 2, X$norm, "*"), 2, X$cent, "+")
+  Xrow_K  <- split(as.data.frame(Xrow), factor)
+  mean_env_by_sp <- t(as.matrix(Yw)) %*% (as.matrix(Xrow))
+  mean_E <- apply(Xrow, 2, mean)
+  mean_K  <- split(as.data.frame(Xrow), factor)
+  mean_K <- lapply(mean_K, FUN=function(x) apply(x, 2, mean))
+  mean_K <- as.data.frame(do.call("rbind",mean_K))
+  mean_env <- rbind(mean_E,mean_K)
+  rownames(mean_env) <- c("mean_E", paste(rep("mean_K", dim(mean_K)[1]), levels(factor), sep = ""))
+  ls.spl <- split(as.data.frame(nic$ls), factor)
+  G_k <- lapply(ls.spl, FUN=function(x) apply(x, 2, mean))
+  G_k <- as.data.frame(do.call("rbind", G_k))
+  rownames(G_k) <- paste(rep("G_k", dim(G_k)[1]), levels(factor), sep = "")
   names(G_k) <- names(nic$li)
-  mutemp <- list()
-
-  for (i in 1:length(liwei)){
-    mutemp[[i]] <- matrix(nrow=length(colnames(Y)), ncol=nic$nf)
-    rownames(mutemp[[i]]) <- paste(colnames(Y),levels(factor)[[i]],sep="")
-    for(j in 1:length(colnames(Y))){
-      z <- liwei[[i]][,j]
-      mutemp[[i]][j,] <- apply(liani[[i]],2, weighted.mean, z)
+  subposi <- list()
+  mean_env_by_sub <- list()
+  spwei <- split(Y, factor)
+  N <- length(levels(factor))
+  for (i in 1:N) {
+    w <- spwei[[i]]
+    w2 <- apply(w, 2, sum)
+    spwei[[i]] <- sweep(w, 2, w2, "/")
+    subposi[[i]] <- t(as.matrix(spwei[[i]]))%*%as.matrix(ls.spl[[i]])
+    mean_env_by_sub[[i]] <- t(as.matrix(spwei[[i]]))%*%as.matrix(Xrow_K[[i]])
+    rownames(subposi[[i]]) <- paste(colnames(Y), levels(factor)[[i]], sep = "")
+    rownames(mean_env_by_sub[[i]]) <- paste(colnames(Y), levels(factor)[[i]], sep = "")
     }
-  }
-  mutemp <- do.call("rbind", mutemp)
-  nic$sub <- mutemp
+  subposi <- do.call("rbind", subposi)
+  mean_env_by_sub <- do.call("rbind", mean_env_by_sub)
+  colnames(subposi) <- colnames(nic$li)
+  colnames(mean_env_by_sub) <- colnames(Xrow)
+  nic$mean_env_by_sp <- mean_env_by_sp
+  nic$mean_env_by_sub <- mean_env_by_sub
+  nic$sub <- subposi
   nic$G_k <- G_k
+  nic$mean_env <- mean_env
   rownames(nic$G_k) <- paste(rep("G_k",dim(nic$G_k)[1]),levels(factor),sep="")
   nic$factor <- factor
   class(nic) <- c("subniche", "dudi")
@@ -207,7 +223,6 @@ print.subniche <- function (x, ...)
   cat(class(x), "\n")
   cat("\n$rank (rank)     :", x$rank)
   cat("\n$nf (axis saved) :", x$nf)
-  cat("\n$RV (RV coeff)   :", x$RV)
   cat("\n\neigen values: ")
   l0 <- length(x$eig)
   cat(signif(x$eig, 4)[1:(min(5, l0))])
@@ -222,7 +237,7 @@ print.subniche <- function (x, ...)
   sumry[4, ] <- c("$factor", length(x$factor), mode(x$factor), "factor used for creating subsets")
   print(sumry, quote = FALSE)
   cat("\n")
-  sumry <- array("", c(9, 4), list(1:9, c("data.frame", "nrow",
+  sumry <- array("", c(12, 4), list(1:12, c("data.frame", "nrow",
                                             "ncol", "content")))
   sumry[1, ] <- c("$tab", nrow(x$tab), ncol(x$tab), "crossed array (averaging species/sites)")
   sumry[2, ] <- c("$li", nrow(x$li), ncol(x$li), "species coordinates")
@@ -232,7 +247,10 @@ print.subniche <- function (x, ...)
   sumry[6, ] <- c("$ls", nrow(x$ls), ncol(x$ls), "sites coordinates")
   sumry[7, ] <- c("$as", nrow(x$as), ncol(x$as), "axis upon niche axis")
   sumry[8, ] <- c("$G_k", nrow(x$G_k), ncol(x$G_k), "G_k coordinates")
-  sumry[9, ] <- c("$sub", nrow(x$sub), ncol(x$sub), "species coordinates within each subset")
+  sumry[9, ] <- c("$mean_env", nrow(x$mean_env), ncol(x$mean_env), "mean environmental conditions of E and subets K")
+  sumry[10, ] <- c("$mean_env_by_sp", nrow(x$mean_env_by_sp), ncol(x$mean_env_by_sp), "mean environmental conditions by species in E")
+  sumry[11, ] <- c("$mean_env_by_sub", nrow(x$mean_env_by_sub), ncol(x$mean_env_by_sub), "mean environmental conditions by species in subet K")
+  sumry[12, ] <- c("$sub", nrow(x$sub), ncol(x$sub), "species coordinates within each subset")
 
   print(sumry, quote = FALSE)
   cat("\n")
@@ -350,7 +368,7 @@ subparam.refor <- function(x){
     Y <- eval.parent(appel[[3]])[y,]
     w1 <- apply(Y, 2, sum)
     Y <- sweep(Y, 2, w1, "/")
-    calcul.param <- function(freq, mil) {
+      calcul.param <- function(freq, mil) {
       inertia <- sum(freq * mil * mil)
       m <- apply(freq * mil, 2, sum)
       margi <- sum(m^2)
