@@ -3,6 +3,8 @@
 #' @description  The function to represent the community subniche position under each subenvironment K with their respective marginality from Gk.
 #' @param ...	further arguments passed to or from other methods.
 #' @param subnic an object of class \code{subniche}.
+#' @param sig_thres value for minimum significance, default 0.05
+#' @param sig a factor defining the significance species, default NULL.
 #' @param main a main title for the plot, see \link[graphics]{title} for more details.
 #' @param xlab a label for the x axis, defaults to a description of x, see \link[graphics]{title} for more details.
 #' @param ylab a label for the y axis, defaults to a description of y, see \link[graphics]{title} for more details.
@@ -58,20 +60,21 @@
 #' fact <- factor(c(rep(1,N/2),rep(2,N/2)))
 #' # nic1 will be use as reference and fact will be use to define the subniches environment
 #' subnic1 <- subniche(nic1, fact)
-#' eig <- round(subnic1$eig/sum(subnic1$eig)*100,2)[1:2]
 #' #Two graphs are drawn one after the other
-#' subplot(subnic1)
+#' siggk <- rtestsubor(subnic1,10)
+#' sig = c(siggk$`1`$witomigktest$subni.pvalue[-28],siggk$`2`$witomigktest$subni.pvalue[-28])
+#' subplot(subnic1, sig = sig, sig_thres= 0.1)
 #'
 #' @rdname subplot
 #' @export subplot
 #' @importFrom graphics par layout arrows points legend polygon abline
 #' @importFrom wordcloud textplot
 #' @importFrom siar convexhull
-subplot <- function(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3", lty.axis=2, lwd.axis=2,
+subplot <- function(subnic, main=NULL,sig=NULL, sig_thres=0.05, xlab=NULL, ylab=NULL, col.axis="azure3", lty.axis=2, lwd.axis=2,
                     pch.SR.pos=21,
                     cex.SR.pos=1,
                     col.SR.pt="black",
-                    col.SR.pos="#a1d99b",
+                    col.SR.pos="#ffa600",
                     col.SR.lab="black",
                     cex.SR.lab= NA,
                     fac.SR.lab=1.2,
@@ -117,12 +120,17 @@ subplot <- function(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3", 
   if(pch.su<21|pch.su>25){
     pt.su <- col.su
   }
-  if(anyNA(subsp))
-    subsp <- subsp[-which(is.na(subsp[,1])==T),]
   for (i in 1:N){
     subnici <- subnic$ls[which(fac==lev[i]),]
     G_k <- subnic$G_k[grep(lev[i],rownames(subnic$G_k)),]
-    subspk <- subsp[grep(lev[i],rownames(subsp)),]
+    if(is.null(sig)){
+      subspk <- subsp[grep(lev[i],rownames(subsp)),]
+      subspk <- subspk[!is.na(subspk[,1]),]
+    }else{
+      subspk <- subsp[which(round(sig,2)<=sig_thres),]
+      subspk <- subspk[grep(lev[i],rownames(subspk)),]
+      subspk <- subspk[!is.na(subspk[,1]),]
+    }
     sp <- sub(lev[i],"",rownames(subspk))
     m <- dim(subspk)[1]
     plot(subnic$ls, main=main, xlab=xlab, ylab=ylab, type="n",...)

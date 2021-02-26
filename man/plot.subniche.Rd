@@ -29,11 +29,10 @@
   var.angle.arrow = 20,
   var.leg.posi = "bottomleft",
   var.leg.cex = 1.2,
+  fac.var.lab = 1.2,
   col.var = "black",
-  col.sp = rainbow(n = dim(x$li)[1]),
   col.su = "black",
   col.G_k = "red",
-  col.ax = "black",
   nic.leg.posi = "bottomleft",
   nic.leg.cex = 1.2,
   sub.leg.cex = 1.2,
@@ -43,14 +42,9 @@
   border.E = "#92c5de",
   col.E = "#92c5de",
   lty.E = 1,
-  border.K = "#fdb462",
-  col.K = "#fdb462",
+  border.K = "black",
+  col.K = "#2c7fb8",
   lty.K = 1,
-  lty.NR = 1,
-  sub.angle.arrow = 20,
-  sub.col.arrow = "black",
-  sub.length.arrow = 0.1,
-  sub.lwd.arrow = 1,
   show.lines = F,
   ...
 )
@@ -58,33 +52,33 @@
 \arguments{
 \item{x}{an object of class \code{subniche}.}
 
-\item{xax}{column for abscisse.}
+\item{xax}{column for abscissas.}
 
 \item{yax}{column for ordinate.}
 
-\item{ax.angle.arrow}{arrow angle head for plot labelled "Axes", see \link[graphics]{arrows} for more details.}
+\item{ax.angle.arrow}{arrow angle head for plot labeled "Axes", see \link[graphics]{arrows} for more details.}
 
-\item{ax.col.arrow}{arrow color for plot labelled "Axes", see \link[graphics]{arrows} for more details.}
+\item{ax.col.arrow}{arrow color for plot labeled "Axes", see \link[graphics]{arrows} for more details.}
 
-\item{ax.length.arrow}{arrow head length for plot labelled "Axes", see \link[graphics]{arrows} for more details.}
+\item{ax.length.arrow}{arrow head length for plot labeled "Axes", see \link[graphics]{arrows} for more details.}
 
-\item{ax.lwd.arrow}{arrow width for plot labelled "Axes", see \link[graphics]{arrows} for more details.}
+\item{ax.lwd.arrow}{arrow width for plot labeled "Axes", see \link[graphics]{arrows} for more details.}
 
-\item{ax.leg.posi}{legend position for plot labelled "Axes", see \link[graphics]{legend} for more details.}
+\item{ax.leg.posi}{legend position for plot labeled "Axes", see \link[graphics]{legend} for more details.}
 
-\item{ax.leg.cex}{legend size label for plot labelled "Axes", see \link[graphics]{legend} for more details.}
+\item{ax.leg.cex}{legend size label for plot labeled "Axes", see \link[graphics]{legend} for more details.}
 
-\item{eig.col.chos}{bar color for the selected components for plot labelled "Eigenvalues".}
+\item{eig.col.chos}{bar color for the selected components for plot labeled "Eigenvalues".}
 
-\item{eig.col.left}{bar color for the component leftover for plot labelled "Eigenvalues".}
+\item{eig.col.left}{bar color for the component leftover for plot labeled "Eigenvalues".}
 
-\item{eig.leg.posi}{legend position for plot labelled "Eigenvalues", see \link[graphics]{legend} for more details.}
+\item{eig.leg.posi}{legend position for plot labeled "Eigenvalues", see \link[graphics]{legend} for more details.}
 
-\item{eig.leg.cex}{legend size label for plot labelled "Eigenvalues"", see \link[graphics]{legend} for more details.}
+\item{eig.leg.cex}{legend size label for plot labeled "Eigenvalues"", see \link[graphics]{legend} for more details.}
 
-\item{su.leg.posi}{legend position for plot labelled "SU", see \link[graphics]{legend} for more details.}
+\item{su.leg.posi}{legend position for plot labeled "SU", see \link[graphics]{legend} for more details.}
 
-\item{su.leg.cex}{legend size label for plot labelled "SU", see \link[graphics]{legend} for more details.}
+\item{su.leg.cex}{legend size label for plot labeled "SU", see \link[graphics]{legend} for more details.}
 
 \item{col.axis}{axis color, see \link[graphics]{par} for more details.}
 
@@ -92,35 +86,33 @@
 
 \item{lwd.axis}{axis width, see \link[graphics]{par} for more details.}
 
-\item{var.col.arrow}{variables arrow color for plot labelled "Variables and Species", see \link[graphics]{arrows} for more details.}
+\item{var.col.arrow}{variables arrow color for plot labeled "Variables and Species", see \link[graphics]{arrows} for more details.}
 
 \item{var.length.arrow}{variables arrow length of the edges of the arrow head (in inches).}
 
-\item{var.lwd.arrow}{variables arrow width for plot labelled "Variables and Species", see \link[graphics]{arrows} for more details.}
+\item{var.lwd.arrow}{variables arrow width for plot labeled "Variables and Species", see \link[graphics]{arrows} for more details.}
 
-\item{var.angle.arrow}{variables arrow angle head for plot labelled "Variables and Species", see \link[graphics]{arrows} for more details.}
+\item{var.angle.arrow}{variables arrow angle head for plot labeled "Variables and Species", see \link[graphics]{arrows} for more details.}
 
-\item{var.leg.posi}{legend position for plot labelled "Variables and Species", see \link[graphics]{legend} for more details.}
+\item{var.leg.posi}{legend position for plot labeled "Variables and Species", see \link[graphics]{legend} for more details.}
 
-\item{var.leg.cex}{legend size label for plot labelled "Variables and Species", see \link[graphics]{legend} for more details.}
+\item{var.leg.cex}{legend size label for plot labeled "Variables and Species", see \link[graphics]{legend} for more details.}
+
+\item{fac.var.lab}{factor for moving the variable labels from its original coordinates for clarity, by defaults they are multiply 1.2}
 
 \item{col.var}{color variables labels, see \link[wordcloud]{textplot} for more details.}
-
-\item{col.sp}{color species labels and their respective niches, see \link[wordcloud]{textplot} for more details.}
 
 \item{col.su}{color of sampling units, see \link[graphics]{points} for more details.}
 
 \item{col.G_k}{color label G_k, see \link[wordcloud]{textplot} for more details.}
 
-\item{col.ax}{color of axes labels, see \link[wordcloud]{textplot} for more details.}
+\item{nic.leg.posi}{legend position for plot labeled "Niches", see \link[graphics]{legend} for more details.}
 
-\item{nic.leg.posi}{legend position for plot labelled "Niches", see \link[graphics]{legend} for more details.}
+\item{nic.leg.cex}{legend size label for plot labeled "Niches", see \link[graphics]{legend} for more details.}
 
-\item{nic.leg.cex}{legend size label for plot labelled "Niches", see \link[graphics]{legend} for more details.}
+\item{sub.leg.cex}{legend size label for plot labeled "Subsets"", see \link[graphics]{legend} for more details.}
 
-\item{sub.leg.cex}{legend size label for plot labelled "Subsets"", see \link[graphics]{legend} for more details.}
-
-\item{sub.leg.posi}{legend position for plot labelled "Subsets", see \link[graphics]{legend} for more details.}
+\item{sub.leg.posi}{legend position for plot labeled "Subsets", see \link[graphics]{legend} for more details.}
 
 \item{pch.su}{type of the points representing the sampling units (SU), see \link[graphics]{points} for more details.}
 
@@ -137,16 +129,6 @@
 \item{col.K}{inside color of K polygon, see \link[graphics]{polygon} for more details.}
 
 \item{lty.K}{line type for the K border, see \link[graphics]{polygon} for more details.}
-
-\item{lty.NR}{line type for the NR border, see \link[graphics]{polygon} for more details.}
-
-\item{sub.angle.arrow}{arrow angle head for plot labelled "Subsets", see \link[graphics]{arrows} for more details.}
-
-\item{sub.col.arrow}{arrow color for plot labelled  "Subsets", see \link[graphics]{arrows} for more details.}
-
-\item{sub.length.arrow}{arrow head length for plot labelled  "Subsets", see \link[graphics]{arrows} for more details.}
-
-\item{sub.lwd.arrow}{arrow width for plot labelled  "Subsets", see \link[graphics]{arrows} for more details.}
 
 \item{show.lines}{if true, then lines are plotted between x,y and the word, for those words not covering their x,y coordinates. See \link[wordcloud]{textplot} for more details.}
 

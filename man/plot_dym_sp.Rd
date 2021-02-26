@@ -145,7 +145,7 @@ The convex hulls measured are :
 \item SR the species realized subniche.
 }
 The arrows represent the species' subniche marginality from the origin G.
-See \href{https://doi.org/10.7717/peerj.3364}{Karasiewicz,et al. (2017)} for more details on the subniche concept.
+See \doi{10.7717/peerj.3364} for more details on the subniche concept.
 }
 \examples{
 library(subniche)

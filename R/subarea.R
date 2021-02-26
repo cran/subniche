@@ -16,8 +16,7 @@
 #' # nic1 will be use as reference and fact will be use to define the subniches environment
 #' subnic1 <- subniche(nic1, fact)
 #' area_sub <- subarea(subnic1)
-#' @author S. Karasiewicz, \email{stephane.karasiewicz@wanadoo.fr}
-#' @references Karasiewicz S.,Doledec S.and Lefebvre S. (2017). Within outlying mean indexes: refining the OMI analysis for the realized niche decomposition. \emph{PeerJ} 5:e3364. \url{https://doi.org/10.7717/peerj.3364}.
+#' @references Karasiewicz S.,Doledec S.and Lefebvre S. (2017). Within outlying mean indexes: refining the OMI analysis for the realized niche decomposition. \emph{PeerJ} 5:e3364. \doi{10.7717/peerj.3364}.
 #' @details The convex hulls measured are :
 #' \enumerate{
 #' \item E is the environmental space.
@@ -26,7 +25,7 @@
 #' \item SP the existing fundamental subniche.
 #' \item SB the area of the biological constraint reducing SP.
 #' \item SR the species realized subniche.}
-#' See \href{https://doi.org/10.7717/peerj.3364}{Karasiewicz,et al. (2017)} for more details on the subniche concept.
+#' See \doi{10.7717/peerj.3364} for more details on the subniche concept.
 #' @rdname subarea
 #' @export subarea
 #' @import polyclip
@@ -132,7 +131,12 @@ subarea <- function(subnic){
       } else { next }
     }
     for (j in 1:length(subnam)){
-      res$SB[[i]][[j]]<- res$SP[[i]][[j]][[1]]-res$SR[[i]][[j]][[1]]
+      sb <- res$SP[[i]][[j]][[1]]-res$SR[[i]][[j]][[1]]
+      if(isTRUE(sb<0)){
+        res$SB[[i]][[j]]<- 0
+      } else{
+        res$SB[[i]][[j]] <- sb
+      }
     }
     names(res$SB[[i]]) <- subnam
   }

@@ -88,7 +88,7 @@ subplot_sp <- function(subnic, sp, main=NULL, col.axis="azure3", lty.axis=2, lwd
                        cex.Gk.pos=1,
                        pch.Gk.pos=21,
                        border.SP="#bc5090",
-                       col.SB="#d95f0e",
+                       col.SB="#ffff99",
                        lty.SP=1,
                        lwd.SP=2,
                        border.NR ="#fdb462",

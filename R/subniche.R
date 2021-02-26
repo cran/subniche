@@ -48,11 +48,11 @@
 #'
 #' For more details description on the package use:\url{https://github.com/KarasiewiczStephane/WitOMI}.
 #'
-#' @references Karasiewicz S.,Doledec S.and Lefebvre S. (2017). Within outlying mean indexes: refining the OMI analysis for the realized niche decomposition. \emph{PeerJ} 5:e3364. \url{https://doi.org/10.7717/peerj.3364}.
+#' @references Karasiewicz S.,Doledec S.and Lefebvre S. (2017). Within outlying mean indexes: refining the OMI analysis for the realized niche decomposition. \emph{PeerJ} 5:e3364. \doi{10.7717/peerj.3364}.
 #'
-#' Calenge C., Dufour A.B. and Maillard D. (2005). K-select analysis: a new method to analyse habitat selection in radio-tracking studies. \emph{Ecological modelling}, \bold{186}, 143-153.
+#' Calenge C., Dufour A.B. and Maillard D. (2005). K-select analysis: a new method to analyze habitat selection in radio-tracking studies. \emph{Ecological modelling}, \bold{186}, 143-153. \doi{10.1016/j.ecolmodel.2004.12.005}.
 #'
-#' Doledec S., Chessel D. and Gimaret C. (2000). Niche separation in community analysis: a new method. \emph{Ecology},\bold{81}, 2914-1927.
+#' Doledec S., Chessel D. and Gimaret C. (2000). Niche separation in community analysis: a new method. \emph{Ecology},\bold{81}, 2914-1927. \doi{10.2307/177351}
 #'
 #' Thomas, D.L., Taylor, E.J. (1990). Study Designs and Tests for Comparing Resource Use and Availability II. \emph{Natl. Widl.} \bold{54}(2), 322-330.
 #'
@@ -72,7 +72,6 @@
 #'plot(nic1)
 #'plot(subnic1)
 #'#Display the marginality vector of the suborigins and the species subniche
-#'margvect(subnic1)
 #'#Display the subset's polygon, found within the overall environment's chull,
 #'#and the corresponding species positions
 #'subplot(subnic1)
@@ -467,7 +466,7 @@ subparam.subor <- function(x){
   nam <- levels(factor)
   for(i in 1:N){
     res[[i]] <-  subnichesub.param(x,array(factor)==nam[i])
-    rownames(res[[i]]) <- paste(rownames(x$li),i,sep="")
+    rownames(res[[i]]) <- paste(rownames(x$li),nam[i],sep="")
   }
   res <- do.call("rbind",res)
   return(res)
