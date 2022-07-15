@@ -69,7 +69,7 @@
 #' @export subplot
 #' @importFrom graphics par layout arrows points legend polygon abline
 #' @importFrom wordcloud textplot
-#' @importFrom siar convexhull
+#' @importFrom SIBER siberConvexhull
 subplot <- function(subnic, main=NULL,sig=NULL, sig_thres=0.05, xlab=NULL, ylab=NULL, col.axis="azure3", lty.axis=2, lwd.axis=2,
                     pch.SR.pos=21,
                     cex.SR.pos=1,
@@ -134,9 +134,9 @@ subplot <- function(subnic, main=NULL,sig=NULL, sig_thres=0.05, xlab=NULL, ylab=
     sp <- sub(lev[i],"",rownames(subspk))
     m <- dim(subspk)[1]
     plot(subnic$ls, main=main, xlab=xlab, ylab=ylab, type="n",...)
-    E <- convexhull(subnic$ls[,1], subnic$ls[,2])
+    E <- siberConvexhull(subnic$ls[,1], subnic$ls[,2])
     polygon(E$xcoords,E$ycoords, border=border.E, col=col.E, lty=lty.E, lwd=lwd.E)
-    K <- convexhull(subnici[,1], subnici[,2])
+    K <- siberConvexhull(subnici[,1], subnici[,2])
     polygon(K$xcoords,K$ycoords, border=border.K, col=col.K, lty=lty.K, lwd=lwd.K)
     abline(h=0, lty=lty.axis, lwd=lwd.axis, col=col.axis)
     abline(v=0, lty=lty.axis, lwd=lwd.axis, col=col.axis)

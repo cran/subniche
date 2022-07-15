@@ -73,7 +73,7 @@
 #' @export
 #' @importFrom graphics par layout arrows points legend polygon abline
 #' @importFrom wordcloud textplot
-#' @importFrom siar convexhull
+#' @importFrom SIBER siberConvexhull
 subplot_sp <- function(subnic, sp, main=NULL, col.axis="azure3", lty.axis=2, lwd.axis=2,  xlab=NULL, ylab=NULL,
                        border.E="black",
                        col.E="#92c5de",

@@ -51,7 +51,7 @@
 #' plot_NR(subnic1, sig=sigi$pvalue[-M], sig_thres= 0.1)
 #' @importFrom graphics par layout arrows points legend polygon abline text
 #' @importFrom wordcloud textplot
-#' @importFrom siar convexhull
+#' @importFrom SIBER siberConvexhull
 plot_NR <- function(subnic,sig=NULL, sig_thres=0.05,
                     xlab=NULL, ylab=NULL, main=NA, col.axis="azure3", lty.axis=2, lwd.axis=2,
                     border.E="black",

@@ -46,7 +46,8 @@
 #' @param ... further arguments passed to or from other methods.
 #' @details The function illustrate the results of subniche calculation with a great deal of customization parameters.
 #' @method plot subniche
-#' @export plot subniche(x, xax = 1, yax = 2, ax.angle.arrow=20, ax.col.arrow="black",
+#' @export plot
+#'subniche(x, xax = 1, yax = 2, ax.angle.arrow=20, ax.col.arrow="black",
 #'ax.length.arrow=0.1,
 #'ax.lwd.arrow=1,
 #'ax.leg.posi="bottomleft",
@@ -97,7 +98,7 @@
 #' subnic1 <- subniche(nic1, fact)
 #' plot(subnic1)
 #' @importFrom graphics par layout barplot box lines plot segments
-#' @importFrom siar convexhull
+#' @importFrom SIBER siberConvexhull
 #' @importFrom wordcloud textplot
 #' @importFrom grDevices rainbow
 plot.subniche <- function (x, xax = 1, yax = 2,
@@ -174,7 +175,7 @@ plot.subniche <- function (x, xax = 1, yax = 2,
 
   plot(x$ls, type = "n",  xlab=NA, ylab=NA, xaxt='n',yaxt='n',asp=1, ...)
   box()
-  E <- convexhull(x$ls[,xax], x$ls[,yax])
+  E <- siberConvexhull(x$ls[,xax], x$ls[,yax])
   polygon(E$xcoords,E$ycoords, border=border.E, col=col.E, lty=lty.E)
   abline(h=0, lty=lty.axis, lwd=lwd.axis, col=col.axis)
   abline(v=0, lty=lty.axis, lwd=lwd.axis, col=col.axis)

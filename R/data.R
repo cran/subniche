@@ -3,6 +3,7 @@
 #' The \code{drome} data are the spatial example used as an ecological application of the WitOMI calculations in
 #' Karasiewicz et al. (2017).
 #' @usage data(drome)
+#' @docType data
 #' @format The \code{drome} is a list of 3 components.
 #'
 #'  \code{env}

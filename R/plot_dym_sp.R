@@ -67,7 +67,7 @@
 #' plot_dym_sp(subnic1, "Neba")
 #' @importFrom graphics par layout arrows points legend polygon abline text
 #' @importFrom wordcloud textplot
-#' @importFrom siar convexhull
+#' @importFrom SIBER siberConvexhull
 plot_dym_sp <- function(subnic, sp, xlab=NULL, ylab=NULL, main=NA, col.axis="azure3", lty.axis=2, lwd.axis=2,
                         border.E="black",
                         col.E="#92c5de",

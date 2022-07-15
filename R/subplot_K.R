@@ -50,7 +50,7 @@
 #' @export subplot_K
 #' @importFrom graphics par layout arrows points legend polygon abline
 #' @importFrom wordcloud textplot
-#' @importFrom siar convexhull
+#' @importFrom SIBER siberConvexhull
 #'
 #'
 subplot_K <- function(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3", lty.axis=2, lwd.axis=2,
@@ -85,12 +85,12 @@ subplot_K <- function(subnic, main=NULL, xlab=NULL, ylab=NULL, col.axis="azure3"
     ylab=paste(paste("OMI2",eig[2], sep=" "),"%",sep="")}
   N <- length(lev)
   plot(subnic$ls, main=main, xlab=xlab, ylab=ylab, type="n",...)
-  E <- convexhull(subnic$ls[,1], subnic$ls[,2])
+  E <- siberConvexhull(subnic$ls[,1], subnic$ls[,2])
   polygon(E$xcoords,E$ycoords, border=border.E, col=col.E, lty=lty.E, lwd=lwd.E)
   for (i in 1:N){
     subnici <- subnic$ls[which(fac==lev[i]),]
     G_k <- subnic$G_k[grep(lev[i],rownames(subnic$G_k)),]
-    K <- convexhull(subnici[,1], subnici[,2])
+    K <- siberConvexhull(subnici[,1], subnici[,2])
     polygon(K$xcoords,K$ycoords, border=border.K, col=col.K, lty=lty.K, lwd=lwd.K)
     points(subnici,cex=cex.su, col=pt.su, bg=col.su, pch=pch.su)
     points(G_k[,1], G_k[,2], col=col.Gk.pt, bg=col.Gk.pos, pch=pch.Gk.pos, cex= cex.Gk.pos)

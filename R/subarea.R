@@ -29,19 +29,19 @@
 #' @rdname subarea
 #' @export subarea
 #' @import polyclip
-#' @importFrom siar convexhull
+#' @importFrom SIBER siberConvexhull
 #' @importFrom polyclip polyclip
 subarea <- function(subnic){
   selecto <-  function(x,n){
     substring(x,nchar(x)-n+1)
   }
   res <- list()
-  res$E <- convexhull(subnic$ls[,1], subnic$ls[,2])
+  res$E <- siberConvexhull(subnic$ls[,1], subnic$ls[,2])
   names(res$E) <- c("TA" ,  "x", "y","samples")
   res$K <- list()
   lev <- levels(subnic$factor)
   for(i in 1:length(lev)){
-    res$K[[i]] <- convexhull(subnic$ls[which(subnic$factor==lev[i]),1], subnic$ls[which(subnic$factor==lev[i]),2])
+    res$K[[i]] <- siberConvexhull(subnic$ls[which(subnic$factor==lev[i]),1], subnic$ls[which(subnic$factor==lev[i]),2])
     names(res$K[[i]]) <- c("TA" ,  "x", "y","samples")
   }
   names(res$K) <- lev
@@ -53,7 +53,7 @@ subarea <- function(subnic){
   for (i in 1:length(spnam)){
     occfact <- factor(Y[,i])
     if (sum(Y[,i])>2){
-      res$NR[[i]] <- convexhull(subnic$ls[which(occfact==1),1], subnic$ls[which(occfact==1),2])
+      res$NR[[i]] <- siberConvexhull(subnic$ls[which(occfact==1),1], subnic$ls[which(occfact==1),2])
       names( res$NR[[i]]) <- c("TA","x","y","samples")
     } else {
       res$NR[[i]] <- list(TA=NULL,x=subnic$ls[which(occfact==1),1], y=subnic$ls[which(occfact==1),2], samples=rownames(subnic$ls[which(occfact==1),]))
@@ -83,7 +83,7 @@ subarea <- function(subnic){
     for (j in 1:length(subnam)){
       occfact <- factor(y[,subnam[j]])
       if(sum(y[,subnam[j]])>2){
-        res$SR[[i]][[j]] <- convexhull(ls[which(occfact==1),1], ls[which(occfact==1),2])
+        res$SR[[i]][[j]] <- siberConvexhull(ls[which(occfact==1),1], ls[which(occfact==1),2])
         names(res$SR[[i]][[j]]) <- c("TA","x","y","samples")
       } else {
         res$SR[[i]][[j]] <- list(TA=NULL,x=subnic$ls[which(occfact==1),1], y=subnic$ls[which(occfact==1),2], samples=rownames(subnic$ls[which(occfact==1),]))
@@ -109,7 +109,7 @@ subarea <- function(subnic){
     for (j in 1:length(subnam)){
       if(sum(y[,subnam[j]])>2){
         C <- polyclip(res$K[[i]],res$NR[subnam[j]])
-        res$SP[[i]][[j]] <-convexhull(C[[1]]$x, C[[1]]$y)
+        res$SP[[i]][[j]] <-siberConvexhull(C[[1]]$x, C[[1]]$y)
         names(res$SP[[i]][[j]]) <-  c("TA","x","y","samples")
       } else {
         res$SP[[i]][[j]] <- res$SR[[i]][[j]]
